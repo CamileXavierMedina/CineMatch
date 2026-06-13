@@ -1,0 +1,8 @@
+# ARQUIVOS DE CONFIGURACAO LOCAIS
+.env
+
+# ARQUIVOS TEMPORARIOS DO PYTHON
+__pycache__/
+*.pyc
+venv/
+.vscode/
