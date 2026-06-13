@@ -1,54 +1,111 @@
-# 🎬 CineMatch — Diário de Filmes (Auto-Gestão)
+# CineMatch — Diário de Filmes (Auto-Gestão)
 
 ## 1. Descrição do Projeto
 
-O **CineMatch** é um diário de filmes minimalista, direto e eficiente, projetado para permitir que os usuários gerenciem suas listas de produções favoritas de forma simplificada e sem a necessidade de autenticação complexa. Desenvolvido com o framework Flask em Python no back-end, o sistema integra-se diretamente com a API pública do **TMDB (The Movie Database)** para a busca de títulos em tempo real, conectando-se a uma base de dados centralizada na nuvem através do **Supabase (PostgreSQL)**.
+O **CineMatch** é um diário de filmes minimalista, direto e eficiente, projetado para permitir que os utilizadores gerenciem as suas listas de produções favoritas de forma simplificada e sem a necessidade de autenticação complexa.
 
-A proposta do sistema adota uma filosofia de design *clean*, focando 100% na usabilidade e na organização clara. Ao buscar e encontrar produções, os dados são gerenciados dinamicamente via JavaScript no front-end e salvos diretamente em duas colunas ou abas na tela, permitindo monitorar o histórico e os desejos cinematográficos de forma instantânea.
+Desenvolvido com o framework **Flask** em Python no back-end, o sistema integra-se diretamente com a API pública do **TMDB (The Movie Database)** para a busca de títulos em tempo real, conectando-se a uma base de dados centralizada na nuvem através do **Supabase (PostgreSQL)**.
 
----
-
-## 2. Principais Funcionalidades e Telas
-
-* **🔍 Tela Principal (`index.html`):** Rota inicial do sistema. Contém uma interface direta focada na barra de busca global. Ao digitar o nome de um filme, o sistema consome a API de cinema do TMDB em tempo real e exibe os resultados em cards, com botões para direcionar o filme para uma das listas.
-* **📌 Tela Quero Assistir (`quero_assistir.html`):** Uma tela dedicada para listar todos os filmes que o usuário salvou com o desejo de assistir no futuro. Exibe os metadados limpos e opção para remover ou mover para assistidos.
-* **⭐ Tela Já Assisti (`assistidos.html`):** Histórico completo das produções cinematográficas já visualizadas pelo usuário, integrando o sistema visual de avaliação por estrelas (nota de 1 a 5).
+A proposta do sistema adota um estilo visual inspirado na Netflix (Dark Mode com tons vermelhos vibrantes), focando 100% na usabilidade e na organização clara. Ao buscar e encontrar produções, os dados são gerenciados dinamicamente via JavaScript no front-end por meio de requisições assíncronas, permitindo monitorizar o histórico e os desejos cinematográficos de forma instantânea.
 
 ---
 
-## 3. Arquitetura do Sistema e Fluxo de Dados
+# 2. Principais Funcionalidades e Telas
+
+## Tela Principal (`index.html`)
+
+Interface inicial limpa e focada nos cards de ponte para as listas. Os utilizadores podem aceder diretamente à lista de desejos ou ao histórico de críticas.
+
+## Tela Quero Assistir (`quero_assistir.html`)
+
+Uma lista de desejos dedicada para guardar produções que planeia ver no futuro, permitindo mover o filme para a lista de assistidos ou removê-lo a qualquer momento.
+
+## Tela Já Assisti (`assistidos.html`)
+
+Histórico completo das produções cinematográficas já visualizadas pelo utilizador.
+
+Conta com:
+
+- Sistema visual de avaliação por estrelas (1 a 5)
+- Criação de críticas pessoais
+- Visualização de críticas
+- Edição de críticas
+- Exclusão de críticas
+- Persistência dos dados diretamente na nuvem
+
+---
+
+# 3. Arquitetura do Sistema e Fluxo de Dados
 
 A arquitetura do CineMatch foi desenhada seguindo o modelo cliente-servidor assíncrono para garantir leveza e velocidade, eliminando recarregamentos desnecessários de página (F5) no navegador.
 
-### Camadas do Sistema:
-1. **Interface (Front-End):** Camada de apresentação construída em HTML5 e CSS3 (Bootstrap 5) para um visual minimalista e responsivo. Utiliza **JavaScript Vanilla** e a **Fetch API** para enviar e receber dados em segundo plano, atualizando o conteúdo da tela de forma reativa.
-2. **Back-End (API Gateway):** Servidor construído em **Python com Flask** que expõe rotas RESTful. Ele intercepta as requisições do front-end, consome os metadados da API de Cinema e faz a ponte de persistência com a nuvem.
-3. **Serviços Externos e Nuvem:**
-   * **TMDB API:** Fornece o catálogo mundial de filmes, títulos, sinopses e imagens de capas.
-   * **Supabase Cloud:** Banco de dados relacional **PostgreSQL** hospedado na nuvem que armazena as escolhas, status e notas dos usuários.
+## Camadas do Sistema
+
+### Interface (Front-End)
+
+Camada de apresentação estruturada em:
+
+- HTML5
+- CSS3
+- Bootstrap 5
+- JavaScript Vanilla
+
+Utiliza a Fetch API para enviar e receber dados em segundo plano, atualizando tabelas e modais dinamicamente.
+
+### Back-End (API Gateway)
+
+Servidor desenvolvido em Python com Flask que:
+
+- Expõe rotas RESTful
+- Recebe requisições assíncronas
+- Consome a API do TMDB
+- Filtra dados
+- Realiza a persistência no banco de dados
+
+### Serviços Externos e Nuvem
+
+#### TMDB API
+
+Fornece:
+
+- Títulos
+- Sinopses
+- Anos de lançamento
+- Posters
+- Metadados dos filmes
+
+#### Supabase Cloud
+
+Banco de dados PostgreSQL hospedado na nuvem responsável pelo armazenamento de:
+
+- Filmes salvos
+- Status de acompanhamento
+- Notas
+- Críticas
 
 ---
 
-## 4. Tecnologias Utilizadas
+# 4. Tecnologias Utilizadas
 
 | Categoria | Tecnologia |
-| :--- | :--- |
-| **Back-end** | Python 3.10+ / Flask |
-| **Consumo de API** | Requests (Integração assíncrona com a API do TMDB) |
-| **Banco de Dados** | PostgreSQL (Supabase Cloud) |
-| **Frontend** | HTML5, CSS3 (Bootstrap 5 / Tailwind) e JavaScript Vanilla |
-| **Garantia de Qualidade (QA)** | Pytest (Testes de rotas e integração de APIs) |
-| **DevOps e Infraestrutura** | Docker (Containerização de ambiente de produção) |
-| **Hospedagem / Deploy** | Render Cloud |
+|------------|------------|
+| Back-end | Python 3.11+ / Flask |
+| Consumo de API | Requests |
+| Banco de Dados | PostgreSQL (Supabase Cloud) |
+| Front-end | HTML5, CSS3, Bootstrap 5 e JavaScript Vanilla |
+| Garantia de Qualidade (QA) | Pytest |
+| DevOps e Infraestrutura | Docker |
+| Hospedagem / Deploy | Render Cloud |
 
 ---
 
-## 5. Modelagem de Dados (Banco de Dados)
+# 5. Modelagem de Dados (Banco de Dados)
 
-```
--- Criação da tabela oficial com cláusula de restrição (CHECK) para integridade dos dados
+O script SQL abaixo define a tabela oficial de persistência do projeto.
+
+```sql
 CREATE TABLE filmes_salvos (
-    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     tmdb_id INT NOT NULL UNIQUE,
     titulo TEXT NOT NULL,
     poster_path TEXT,
@@ -60,131 +117,166 @@ CREATE TABLE filmes_salvos (
 );
 ```
 
-## 6. Estrutura de Pastas do Projeto
+> **Aviso:** O arquivo localizado em `database/schema.sql` serve como documentação e referência. O script deve ser executado diretamente no SQL Editor do Supabase.
 
-```files
+---
+
+# 6. Estrutura de Pastas do Projeto
+
+```text
 cinematch/
 │
 ├── database/
-│   └── schema.sql          # Script SQL de criação da tabela no banco
+│   └── schema.sql
 │
-├── static/                 # Arquivos estáticos servidos pelo backend
-│   ├── css/
-│   │   └── style.css       # Estilizações customizadas e design minimalista
-│   └── js/
-│       └── main.js         # Manipulação de DOM e chamadas assíncronas (Fetch API)
 │
-├── templates/              # Estruturas de visualização
-│   └── index.html          # Página principal unificada em HTML5
+├── templates/
+│   ├── index.html
+│   ├── assistir.html
+│   └── assistidos.html
 │
-├── tests/                  # Suite de testes automatizados
-│   └── test_app.py         # Testes lógicos e de integração com pytest 
-├── .env.example            # Exemplo de variáveis de ambiente do projeto
-├── .gitignore              # Arquivos ignorados pelo Git (venv, chaves, cache)
-├── app.py                  # Servidor principal Flask e definição de rotas 
-├── Dockerfile              # Configuração do container para ambiente de produção 
-├── requirements.txt        # Lista de dependências e bibliotecas do Python
-└── README.md               # Documentação técnica do repositório 
+├── tests/
+│   └── test_app.py
+│
+├── .env.example
+├── .gitignore
+├── app.py
+├── Dockerfile
+├── requirements.txt
+└── README.md
 ```
+
 ---
 
-## 7. Como Executar a Aplicação Localmente
+# 7. Como Executar a Aplicação Localmente
 
-### Pré-requisitos
-* Python 3.11 ou superior instalado.
-* Git para controle de versão.
+## Pré-requisitos
 
-### Configuração do Ambiente
+- Python 3.11 ou superior
+- Git instalado
 
-1. **Clone este repositório para o seu computador:**
-   ```bash
-   git clone [https://github.com/CamileXavierMedina/CineMatch.git](https://github.com/CamileXavierMedina/CineMatch.git)
+## Clone o Repositório
 
-2. **Navegue até a pasta raiz do projeto:**
+```bash
+git clone https://github.com/CamileXavierMedina/CineMatch.git
+```
 
-   ```bash
-   cd CineMatch
+## Acesse a Pasta do Projeto
 
-3. **Crie um ambiente virtual isolado para as dependências:**
+```bash
+cd CineMatch
+```
 
-   ```bash
-   python -m venv venv
+## Crie um Ambiente Virtual
 
-4. **Ative o ambiente virtual:**
+```bash
+python -m venv venv
+```
 
-   Windows:
+## Ative o Ambiente Virtual
 
-   ```bash
-   .\venv\Scripts\activate
-   ```
-   Linux/macOS:
+### Windows
 
-   ```bash
-   source venv/bin/activate
-   ```
+```bash
+.\venv\Scripts\activate
+```
 
-5. **Instale todas as dependências do projeto:**
+### Linux/macOS
 
-   ```bash
-   pip install -r requirements.txt
-   
-6. **Inicie o servidor local de desenvolvimento:**
+```bash
+source venv/bin/activate
+```
 
-   ```bash
-   python app.py
-   ```
-   O console indicará que o servidor está rodando. Abra o seu navegador de preferência e acesse:
-   ```
-   http://127.0.0.1:5000
-   ```
---- 
-## 8. Execução via Docker (Containerização)
+## Instale as Dependências
 
-Caso queira compilar e executar a aplicação em um ambiente isolado idêntico ao servidor de produção, certifique-se de ter o Docker instalado.
+```bash
+pip install -r requirements.txt
+```
 
-### Compilação da imagem Docker
+## Configure as Variáveis de Ambiente
+
+Crie um arquivo `.env` na raiz do projeto com base no arquivo `.env.example`.
+
+```env
+SUPABASE_URL=sua_url_do_supabase
+SUPABASE_KEY=sua_chave_anon_do_supabase
+TMDB_ACCESS_TOKEN=seu_access_token_do_tmdb
+```
+
+## Execute o Servidor
+
+```bash
+python app.py
+```
+
+## Abra no Navegador
+
+```text
+http://127.0.0.1:10000
+```
+
+ou
+
+```text
+http://127.0.0.1:5000
+```
+
+(conforme configuração da aplicação)
+
+---
+
+# 8. Execução via Docker
+
+## Construir a Imagem
 
 ```bash
 docker build -t cinematch-app .
 ```
 
-### Execução do container
+## Executar o Container
 
 ```bash
-docker run -p 10000:10000 cinematch-app
+docker run -p 10000:10000 --env-file .env cinematch-app
 ```
 
-Acesse no navegador:
+## Acessar a Aplicação
 
 ```text
 http://localhost:10000
 ```
+
 ---
 
-## 9. Links Úteis do Projeto
+# 9. Links Úteis do Projeto
 
-### Repositório GitHub
+## Repositório Oficial
 
+```text
 https://github.com/CamileXavierMedina/CineMatch
+```
 
-### Aplicação Publicada (Deploy)
+## Aplicação Publicada
 
-> Inserir aqui o link do Render após o deploy
+```text
+Link disponível após conclusão do deploy no Render
+```
 
 ---
 
-## 10. Equipe de Desenvolvimento
+# 10. Equipe de Desenvolvimento
 
-| Integrante               | Responsabilidade                                                                   |
-| ------------------------ | -----------------------------------------------------------------------            |
-| **Camile Xavier Medina** | Proprietária do Repositório e Desenvolvedora Back-end e frontend (Python & APIs)   |
-| **Leticia**              | Desenvolvedora Frontend e Tech Docs (HTML/Bootstrap 5)                             |
-| **Rafael**               | Administrador de Banco de Dados (PostgreSQL & Supabase Cloud)                      |
-| **Larissa**              | DevOps, Garantia de Qualidade (Pytest) e Deploy (Render & Docker)                  |
+| Integrante | Responsabilidade |
+|------------|------------------|
+| Camile Xavier Medina | Proprietária do Repositório, Engenharia de Software, Desenvolvimento Back-end e Integrações de API |
+| Leticia | Desenvolvimento Front-end, Estruturação de Telas, UX/UI Core e Documentação Técnica |
+| Rafael | Administração e Modelagem de Banco de Dados Relacional (PostgreSQL e Supabase Cloud) |
+| Larissa | Arquitetura DevOps, Testes Automatizados (Pytest), Docker e Pipeline de Deploy |
 
+---
 
-##  Licença
+# Licença
 
-Este projeto foi desenvolvido para fins acadêmicos e de aprendizado.
+Este projeto foi desenvolvido estritamente para fins académicos, de portfólio pessoal e de aprendizagem contínua.
 
-Ceub - 14 de junho de 2026.
+**Centro Universitário de Brasília (CEUB)**  
+**14 de Junho de 2026**
