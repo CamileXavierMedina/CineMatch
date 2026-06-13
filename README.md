@@ -37,7 +37,7 @@ A proposta do sistema adota uma filosofia de design *clean*, focando 100% na usa
 cinematch/
 │
 ├── database/
-│   └── schema.sql          # Script SQL de criação da tabela no banco 
+│   └── schema.sql          # Script SQL de criação da tabela no banco
 │
 ├── static/                 # Arquivos estáticos servidos pelo backend
 │   ├── css/
@@ -50,7 +50,63 @@ cinematch/
 │
 ├── tests/                  # Suite de testes automatizados
 │   └── test_app.py         # Testes lógicos e de integração com pytest 
-│
 ├── .env.example            # Exemplo de variáveis de ambiente do projeto
 ├── .gitignore              # Arquivos ignorados pelo Git (venv, chaves, cache)
-├── app.py                  # Servidor principal Flask e definição
+├── app.py                  # Servidor principal Flask e definição de rotas 
+├── Dockerfile              # Configuração do container para ambiente de produção 
+├── requirements.txt        # Lista de dependências e bibliotecas do Python
+└── README.md               # Documentação técnica do repositório 
+```
+---
+
+## 5. Como Executar a Aplicação Localmente
+
+### Pré-requisitos
+* Python 3.11 ou superior instalado.
+* Git para controle de versão.
+
+### Configuração do Ambiente
+
+1. **Clone este repositório para o seu computador:**
+   ```bash
+   git clone [https://github.com/CamileXavierMedina/CineMatch.git](https://github.com/CamileXavierMedina/CineMatch.git)
+
+2. **Navegue até a pasta raiz do projeto:**
+
+   ```bash
+   cd CineMatch
+
+3. **Crie um ambiente virtual isolado para as dependências:**
+
+   ```bash
+   python -m venv venv
+
+4. **Ative o ambiente virtual:**
+
+   Windows:
+
+   ```bash
+   .\venv\Scripts\activate
+   ```
+   Linux/macOS:
+
+   ```bash
+   source venv/bin/activate
+   ```
+
+5. **Instale todas as dependências do projeto:**
+
+   ```bash
+   pip install -r requirements.txt
+   
+6. **Inicie o servidor local de desenvolvimento:**
+
+   ```bash
+   python app.py
+   ```
+   O console indicará que o servidor está rodando. Abra o seu navegador de preferência e acesse:
+   ```
+   http://127.0.0.1:5000
+   ```
+   
+
