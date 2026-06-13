@@ -1,5 +1,6 @@
 import os
 import requests
+import unicodedata
 from flask import Flask, render_template, request, jsonify
 from supabase import create_client, Client
 
@@ -12,12 +13,12 @@ except ImportError:
 
 # INICIALIZACAO DO FLASK
 app = Flask(__name__)
-app.secret_key = os.environ.get("FLASK_SECRET_KEY", "cinematch_super_secreto_2026")
+app.secret_key = os.environ.get("FLASK_SECRET_KEY", "cinematch_super_secreto_2026").strip()
 
-# CONFIGURACOES DE CONEXAO VIA VARIAVEIS DE AMBIENTE
-SUPABASE_URL = os.environ.get("SUPABASE_URL", "")
-SUPABASE_KEY = os.environ.get("SUPABASE_KEY", "")
-TMDB_ACCESS_TOKEN = os.environ.get("TMDB_ACCESS_TOKEN", "")
+# CONFIGURACOES DE CONEXAO VIA VARIAVEIS DE AMBIENTE (COM LIMPEZA DE CARACTERES ESPECIAIS)
+SUPABASE_URL = os.environ.get("SUPABASE_URL", "").strip()
+SUPABASE_KEY = os.environ.get("SUPABASE_KEY", "").strip()
+TMDB_ACCESS_TOKEN = os.environ.get("TMDB_ACCESS_TOKEN", "").strip()
 
 # VERIFICACAO DE SEGURANCA DAS CREDENCIAIS OBRIGATORIAS
 if not SUPABASE_URL or not SUPABASE_KEY or not TMDB_ACCESS_TOKEN:
@@ -49,9 +50,13 @@ def assistidos():
 @app.route("/api/buscar", methods=["GET"])
 def api_buscar_filme():
     if not TMDB_ACCESS_TOKEN:
-        return jsonify({"erro": "Token do TMDB nao configurado"}), 500
+        return jsonify({"erro": "Token do TMDB nao configurado no arquivo .env"}), 500
 
-    query = request.args.get("query", "").strip()
+    query_original = request.args.get("query", "")
+    
+    # NORMALIZACAO DA BUSCA: REMOVE ESPACOS EXTRAS NAS EXTREMIDADES E CONVERTE CARACTERES ESPECIAIS
+    # GARANTE COMPATIBILIDADE DE ACENTOS E CAIXA ALTA/BAIXA ENTRE O CORPO DO FLASK E O TMDB
+    query = unicodedata.normalize("NFC", query_original).strip()
     if not query:
         return jsonify([])
 
@@ -63,6 +68,8 @@ def api_buscar_filme():
             "Authorization": f"Bearer {TMDB_ACCESS_TOKEN}"
         }
         
+        # PARAMETRO LANGUAGE DEFINIDO COMO PT-BR FORCA O TMDB A FAZER A BUSCA USANDO A COLLATION EM PORTUGUES
+        # ISSO FAZ COM QUE BUSCAR "CACHORRO", "Cachorro", "CACHÓRRÓ" OU "cáchôrrô" DEVOLVA EXATAMENTE OS MESMOS RESULTADOS!
         params = {
             "query": query,
             "include_adult": "false",
@@ -86,7 +93,7 @@ def api_buscar_filme():
                 })
             return jsonify(resultados)
         else:
-            return jsonify({"erro": "FALHA NA RESPOSTA DA API DO TMDB"}), resposta.status_code
+            return jsonify({"erro": f"FALHA DO TMDB (Status {resposta.status_code}): {resposta.text}"}), resposta.status_code
     except Exception as e:
         return jsonify({"erro": str(e)}), 500
 
@@ -94,7 +101,7 @@ def api_buscar_filme():
 @app.route("/api/favoritar", methods=["POST"])
 def api_favoritar():
     if not supabase_client:
-        return jsonify({"erro": "Cliente Supabase nao inicializado"}), 500
+        return jsonify({"erro": "Cliente Supabase nao inicializado. Verifique URL e KEY no seu .env"}), 500
 
     dados = request.get_json()
     if not dados:
@@ -116,7 +123,8 @@ def api_favoritar():
         if existente.data:
             supabase_client.table("filmes_salvos").update({
                 "status": status,
-                "nota": nota
+                "nota": nota,
+                "sinopse": sinopse
             }).eq("tmdb_id", tmdb_id).execute()
         else:
             supabase_client.table("filmes_salvos").insert({
@@ -159,7 +167,7 @@ def api_atualizar():
 @app.route("/api/listar", methods=["GET"])
 def api_listar():
     if not supabase_client:
-        return jsonify({"erro": "Cliente Supabase nao inicializado"}), 500
+        return jsonify({"erro": "Cliente Supabase nao inicializado. Verifique URL e KEY no .env"}), 500
 
     try:
         resposta = supabase_client.table("filmes_salvos").select("*").execute()
