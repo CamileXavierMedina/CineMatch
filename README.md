@@ -108,5 +108,25 @@ cinematch/
    ```
    http://127.0.0.1:5000
    ```
-   
+--- 
+## 6. Execução via Docker (Containerização)
 
+Caso queira compilar e executar a aplicação em um ambiente isolado idêntico ao servidor de produção, certifique-se de ter o Docker instalado.
+
+### Compilação da imagem Docker
+
+```bash
+docker build -t cinematch-app .
+```
+
+### Execução do container
+
+```bash
+docker run -p 10000:10000 cinematch-app
+```
+
+Acesse no navegador:
+
+```text
+http://localhost:10000
+```
