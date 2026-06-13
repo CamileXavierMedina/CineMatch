@@ -10,11 +10,9 @@ A proposta do sistema adota uma filosofia de design *clean*, focando 100% na usa
 
 ## 2. Principais Funcionalidades e Telas
 
-* **🔍 Barra de Busca Global (TMDB):** Interface direta integrada ao catálogo mundial do TMDB. Ao digitar o nome de um filme, o sistema consome a API de cinema em tempo real para trazer títulos, sinopses, anos de lançamento e imagens das capas.
-* **📌 Aba "Quero Assistir":** Funciona como uma lista de desejos (*wishlist*) para planejar as próximas produções que o usuário pretende ver (armazenada no banco com nota igual a 0 ou NULL).
-* **⭐ Aba "Já Assisti":** Espaço focado no histórico de filmes já visualizados, contendo um sistema de avaliação interativo onde o usuário atribui uma nota de 1 a 5 estrelas.
-* **📊 Painel de Gerenciamento Unificado:** Layout responsivo estruturado em duas colunas ou abas na tela principal, permitindo que o usuário gerencie e visualize suas duas listas simultaneamente sem recarregar a página (comunicação assíncrona via Fetch API).
-
+* **🔍 Tela Principal (`index.html`):** Rota inicial do sistema. Contém uma interface direta focada na barra de busca global. Ao digitar o nome de um filme, o sistema consome a API de cinema do TMDB em tempo real e exibe os resultados em cards, com botões para direcionar o filme para uma das listas.
+* **📌 Tela Quero Assistir (`quero_assistir.html`):** Uma tela dedicada para listar todos os filmes que o usuário salvou com o desejo de assistir no futuro. Exibe os metadados limpos e opção para remover ou mover para assistidos.
+* **⭐ Tela Já Assisti (`assistidos.html`):** Histórico completo das produções cinematográficas já visualizadas pelo usuário, integrando o sistema visual de avaliação por estrelas (nota de 1 a 5).
 ---
 
 ## 3. Tecnologias Utilizadas
