@@ -130,3 +130,22 @@ Acesse no navegador:
 ```text
 http://localhost:10000
 ```
+---
+
+## 7. Links Úteis do Projeto
+
+### Repositório GitHub
+
+https://github.com/CamileXavierMedina/CineMatch
+
+### Aplicação Publicada (Deploy)
+
+> Inserir aqui o link do Render após o deploy
+
+---
+
+##  Licença
+
+Este projeto foi desenvolvido para fins acadêmicos e de aprendizado.
+
+Ceub - 14 de junho de 2026.
