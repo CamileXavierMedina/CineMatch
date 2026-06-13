@@ -10,14 +10,26 @@ A proposta do sistema adota uma filosofia de design *clean*, focando 100% na usa
 
 ## 2. Principais Funcionalidades e Telas
 
-* **🔍 Barra de Busca Global (TMDB):** Interface direta integrada ao catálogo mundial do TMDB. Ao digitar o nome de um filme, o sistema consome a API de cinema em tempo real para trazer títulos, sinopses, anos de lançamento e imagens das capas.
-* **📌 Aba "Quero Assistir":** Funciona como uma lista de desejos (*wishlist*) para planejar as próximas produções que o usuário pretende ver (armazenada no banco com nota igual a 0 ou NULL).
-* **⭐ Aba "Já Assisti":** Espaço focado no histórico de filmes já visualizados, contendo um sistema de avaliação interativo onde o usuário atribui uma nota de 1 a 5 estrelas.
-* **📊 Painel de Gerenciamento Unificado:** Layout responsivo estruturado em duas colunas ou abas na tela principal, permitindo que o usuário gerencie e visualize suas duas listas simultaneamente sem recarregar a página (comunicação assíncrona via Fetch API).
+* **🔍 Tela Principal (`index.html`):** Rota inicial do sistema. Contém uma interface direta focada na barra de busca global. Ao digitar o nome de um filme, o sistema consome a API de cinema do TMDB em tempo real e exibe os resultados em cards, com botões para direcionar o filme para uma das listas.
+* **📌 Tela Quero Assistir (`quero_assistir.html`):** Uma tela dedicada para listar todos os filmes que o usuário salvou com o desejo de assistir no futuro. Exibe os metadados limpos e opção para remover ou mover para assistidos.
+* **⭐ Tela Já Assisti (`assistidos.html`):** Histórico completo das produções cinematográficas já visualizadas pelo usuário, integrando o sistema visual de avaliação por estrelas (nota de 1 a 5).
 
 ---
 
-## 3. Tecnologias Utilizadas
+## 3. Arquitetura do Sistema e Fluxo de Dados
+
+A arquitetura do CineMatch foi desenhada seguindo o modelo cliente-servidor assíncrono para garantir leveza e velocidade, eliminando recarregamentos desnecessários de página (F5) no navegador.
+
+### Camadas do Sistema:
+1. **Interface (Front-End):** Camada de apresentação construída em HTML5 e CSS3 (Bootstrap 5) para um visual minimalista e responsivo. Utiliza **JavaScript Vanilla** e a **Fetch API** para enviar e receber dados em segundo plano, atualizando o conteúdo da tela de forma reativa.
+2. **Back-End (API Gateway):** Servidor construído em **Python com Flask** que expõe rotas RESTful. Ele intercepta as requisições do front-end, consome os metadados da API de Cinema e faz a ponte de persistência com a nuvem.
+3. **Serviços Externos e Nuvem:**
+   * **TMDB API:** Fornece o catálogo mundial de filmes, títulos, sinopses e imagens de capas.
+   * **Supabase Cloud:** Banco de dados relacional **PostgreSQL** hospedado na nuvem que armazena as escolhas, status e notas dos usuários.
+
+---
+
+## 4. Tecnologias Utilizadas
 
 | Categoria | Tecnologia |
 | :--- | :--- |
@@ -31,7 +43,24 @@ A proposta do sistema adota uma filosofia de design *clean*, focando 100% na usa
 
 ---
 
-## 4. Estrutura de Pastas do Projeto
+## 5. Modelagem de Dados (Banco de Dados)
+
+```
+-- Criação da tabela oficial com cláusula de restrição (CHECK) para integridade dos dados
+CREATE TABLE filmes_salvos (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    tmdb_id INT NOT NULL UNIQUE,
+    titulo TEXT NOT NULL,
+    poster_path TEXT,
+    ano TEXT,
+    sinopse TEXT,
+    status TEXT NOT NULL CHECK (status IN ('quero', 'assistido')),
+    nota INT DEFAULT 0 CHECK (nota >= 0 AND nota <= 5),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+```
+
+## 6. Estrutura de Pastas do Projeto
 
 ```files
 cinematch/
@@ -59,7 +88,7 @@ cinematch/
 ```
 ---
 
-## 5. Como Executar a Aplicação Localmente
+## 7. Como Executar a Aplicação Localmente
 
 ### Pré-requisitos
 * Python 3.11 ou superior instalado.
@@ -109,7 +138,7 @@ cinematch/
    http://127.0.0.1:5000
    ```
 --- 
-## 6. Execução via Docker (Containerização)
+## 8. Execução via Docker (Containerização)
 
 Caso queira compilar e executar a aplicação em um ambiente isolado idêntico ao servidor de produção, certifique-se de ter o Docker instalado.
 
@@ -132,7 +161,7 @@ http://localhost:10000
 ```
 ---
 
-## 7. Links Úteis do Projeto
+## 9. Links Úteis do Projeto
 
 ### Repositório GitHub
 
@@ -143,6 +172,16 @@ https://github.com/CamileXavierMedina/CineMatch
 > Inserir aqui o link do Render após o deploy
 
 ---
+
+## 10. Equipe de Desenvolvimento
+
+| Integrante               | Responsabilidade                                                                   |
+| ------------------------ | -----------------------------------------------------------------------            |
+| **Camile Xavier Medina** | Proprietária do Repositório e Desenvolvedora Back-end e frontend (Python & APIs)   |
+| **Leticia**              | Desenvolvedora Frontend e Tech Docs (HTML/Bootstrap 5)                             |
+| **Rafael**               | Administrador de Banco de Dados (PostgreSQL & Supabase Cloud)                      |
+| **Larissa**              | DevOps, Garantia de Qualidade (Pytest) e Deploy (Render & Docker)                  |
+
 
 ##  Licença
 
