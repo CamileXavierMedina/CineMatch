@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="pt-pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CineMatch - Quero Assistir</title>
+    <!-- BOOTSTRAP 5 CSS PARA ESTRUTURACAO E RESPONSIVIDADE -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- ICONES DO BOOTSTRAP -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* ESTILO COSPLAY NETFLIX - ESCURO COM DETALHES EM VERMELHO VIBRANTE */
+      body {
+        background-color: #141414;
+        color: #ffffff;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        padding-top: 100px; /* COMPENSACAO AJUSTADA PARA FICAR MAIS PROXIMO DA BARRA FIXA */
+      }
+
+      /* BARRA DE NAVEGACAO ESTILO CABECALHO DA NETFLIX */
+      .navbar-custom {
+        background-color: #000000;
+        border-bottom: 2px solid #1f1f1f;
+      }
+
+      .navbar-logo {
+        color: #e50914 !important;
+        font-size: 2.6rem;
+        letter-spacing: 2px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+      }
+
+      /* BOTAO DE VOLTAR MINIMALISTA ESTILO NETFLIX */
+      .btn-voltar {
+        background-color: transparent !important;
+        color: #ffffff !important;
+        border: 1px solid #ffffff !important;
+        font-weight: bold;
+        transition:
+          background-color 0.2s,
+          border-color 0.2s;
+      }
+
+      .btn-voltar:hover {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        border-color: #ffffff !important;
+      }
+
+      /* SECCAO DE CONTEUDO PRINCIPAL */
+      .titulo-pagina {
+        font-weight: 800;
+        font-size: 1.8rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+      }
+
+      /* BOTOES ESTILO NETFLIX */
+      .btn-netflix-red {
+        background-color: #e50914 !important;
+        color: #ffffff !important;
+        border: none !important;
+        font-weight: bold;
+        transition: background-color 0.2s;
+      }
+
+      .btn-netflix-red:hover {
+        background-color: #b80710 !important;
+      }
+
+      /* CARDS DE EXIBICAO DOS FILMES (VITRINE ESTILO NETFLIX) */
+      .card-filme {
+        background-color: #181818;
+        border: 1px solid #2f2f2f;
+        border-radius: 6px;
+        overflow: hidden;
+        transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+        height: 100%;
+      }
+
+      .card-filme:hover {
+        transform: scale(1.03);
+        border-color: #e50914;
+        box-shadow: 0 8px 25px rgba(229, 9, 20, 0.2);
+      }
+
+      .card-filme img {
+        width: 100%;
+        height: 360px;
+        object-fit: cover;
+        background-color: #2b2b2b;
+        border-bottom: 1px solid #2f2f2f;
+      }
+
+      .movie-title {
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: #ffffff;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+      }
+
+      .movie-year {
+        font-size: 0.85rem;
+      }
+
+      .movie-overview {
+        font-size: 0.85rem;
+        color: #aaaaaa;
+        height: 4.5rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+      }
+
+      /* MODAIS ESTILO NETFLIX */
+      .modal-erro-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.85);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+      }
+
+      .modal-erro-overlay.mostrar {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .modal-erro-container {
+        background-color: #181818;
+        border: 2px solid #e50914;
+        border-radius: 8px;
+        width: 90%;
+        max-width: 550px;
+        padding: 25px;
+        position: relative;
+        box-shadow: 0 10px 30px rgba(229, 9, 20, 0.3);
+        transform: scale(0.8);
+        transition: transform 0.3s ease;
+      }
+
+      .modal-erro-overlay.mostrar .modal-erro-container {
+        transform: scale(1);
+      }
+
+      .btn-fechar-modal {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: transparent;
+        border: none;
+        color: #ffffff;
+        font-size: 1.5rem;
+        line-height: 1;
+        cursor: pointer;
+        transition: color 0.2s;
+      }
+
+      .btn-fechar-modal:hover {
+        color: #e50914;
+      }
+
+      .modal-erro-titulo {
+        font-size: 1.4rem;
+        font-weight: 800;
+        color: #e50914;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      /* CAMPOS DE FORMULARIO ESTILO NETFLIX */
+      .form-control-netflix {
+        background-color: #2b2b2b !important;
+        border: 1px solid #444 !important;
+        color: #ffffff !important;
+      }
+
+      .form-control-netflix option {
+        background-color: #1c1c1c !important;
+        color: #ffffff !important;
+      }
+
+      .form-control-netflix:focus {
+        border-color: #e50914 !important;
+        box-shadow: 0 0 0 0.25rem rgba(229, 9, 20, 0.25) !important;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- BARRA DE NAVEGACAO SUPERIOR (FIXA, LOGO CENTRALIZADO E BOTAO DE VOLTAR) -->
+    <nav class="navbar navbar-custom py-2 shadow-lg fixed-top">
+      <div class="container d-flex justify-content-center align-items-center position-relative">
+        <a href="/" class="btn btn-voltar btn-sm position-absolute start-0 ms-3">
+          <i class="bi bi-chevron-left"></i> Voltar
+        </a>
+        <span class="navbar-brand navbar-logo fw-bold d-flex align-items-center gap-2">
+          <i class="bi bi-play-btn-fill"></i> CINEMATCH
+        </span>
+      </div>
+    </nav>
+
+    <div class="container pb-5">
+      <!-- CABECALHO DA TELA -->
+      <div class="d-flex justify-content-between align-items-center mt-2 mb-4 flex-wrap gap-3">
+        <div class="text-start">
+          <h1 class="titulo-pagina text-white mb-1">
+            Lista de <span class="text-danger">Espera</span>
+          </h1>
+          <p class="text-secondary small mb-0">
+            Gerencie as obras que planeja assistir a seguir ou mova-as para o seu histórico de críticas!
+          </p>
+        </div>
+        <span class="badge bg-dark border border-secondary px-3 py-2" id="contadorFilmes">0 Filmes</span>
+      </div>
+
+      <!-- CONTAINER PRINCIPAL DO GRID DE CARDS -->
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4" id="containerQueroAssistir">
+        <!-- RENDERIZADO DINAMICAMENTE PELO JAVASCRIPT -->
+        <div class="col-12 text-center py-5 text-secondary" id="linhaCarregamento">
+          <div class="spinner-border text-danger mb-3" role="status"></div>
+          <div>A aceder à base de dados do Supabase...</div>
+        </div>
+      </div>
+
+      <!-- CONTAINER EM CASO DE LISTA COMPLETAMENTE VAZIA -->
+      <div id="listaVazia" class="text-center py-5 d-none" style="background-color: #181818; border: 1px dashed #2f2f2f; border-radius: 6px;">
+        <i class="bi bi-bookmark-plus text-secondary fs-1 mb-2 d-block"></i>
+        <h4 class="text-white fw-bold mb-1">Sua lista de desejos está vazia</h4>
+        <p class="text-secondary small mb-3">Volte à página inicial e use a barra de busca para salvar títulos aqui.</p>
+        <a href="/" class="btn btn-netflix-red btn-sm px-4 py-2">Explorar Filmes</a>
+      </div>
+    </div>
+
+    <!-- POP-UP MODAL: MOVER PARA ASSISTIDOS E COLETAR AVALIACAO (UPDATE STATUS) -->
+    <div id="modalMoverAssistido" class="modal-erro-overlay">
+      <div class="modal-erro-container">
+        <button class="btn-fechar-modal" onclick="fecharModalMover()">
+          &times;
+        </button>
+        <div class="modal-erro-titulo text-white">
+          <i class="bi bi-star-fill text-danger"></i> Avaliar Filme Assistido
+        </div>
+        
+        <form id="formMoverFilme" onsubmit="salvarComoAssistido(event)">
+          <input type="hidden" id="moverTmdbId" />
+          
+          <div class="mb-3">
+            <label class="form-label text-secondary small">Título do Filme</label>
+            <input type="text" id="moverTituloExibicao" class="form-control form-control-netflix" readonly disabled />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label text-secondary small">Sua Classificação (Estrelas) *</label>
+            <select id="moverNota" class="form-select form-control-netflix" required>
+              <option value="5">5 Estrelas (Excelente)</option>
+              <option value="4">4 Estrelas (Muito Bom)</option>
+              <option value="3">3 Estrelas (Bom)</option>
+              <option value="2">2 Estrelas (Regular)</option>
+              <option value="1">1 Estrela (Fraco)</option>
+            </select>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label text-secondary small">Sua Crítica / Opinião Pessoal *</label>
+            <textarea id="moverCritica" class="form-control form-control-netflix" rows="3" required placeholder="O que achou deste filme? Conte sua experiência para o histórico..."></textarea>
+          </div>
+
+          <div class="text-end d-flex gap-2 justify-content-end">
+            <button type="button" class="btn btn-sm btn-outline-light px-4" onclick="fecharModalMover()">
+              Cancelar
+            </button>
+            <button type="submit" class="btn btn-sm btn-netflix-red px-4">
+              Salvar no Histórico
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- POP-UP MODAL: FALHA DE LIGACAO -->
+    <div id="modalErro" class="modal-erro-overlay">
+      <div class="modal-erro-container">
+        <button class="btn-fechar-modal" onclick="fecharModalErro()">
+          &times;
+        </button>
+        <div class="modal-erro-titulo">
+          <i class="bi bi-exclamation-triangle-fill"></i> Falha de Ligação
+        </div>
+        <p id="modalErroMensagem" class="text-white small mb-4">
+          Ocorreu um erro ao tentar comunicar com a base de dados do Supabase.
+        </p>
+        <div class="text-end">
+          <button class="btn btn-sm btn-outline-light px-4" onclick="fecharModalErro()">
+            Fechar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOGICA JAVASCRIPT EM VANILLA INTEGRADA AS ROTAS DO SEU APP.PY -->
+    <script>
+      let cacheLocalFilmes = [];
+
+      // EXECUTA A BUSCA AUTOMATICA AO CARREGAR A PAGINA
+      document.addEventListener("DOMContentLoaded", obterFilmesQueroAssistir);
+
+      function exibirModalErro(mensagem) {
+        document.getElementById("modalErroMensagem").textContent = mensagem;
+        document.getElementById("modalErro").classList.add("mostrar");
+      }
+
+      function fecharModalErro() {
+        document.getElementById("modalErro").classList.remove("mostrar");
+      }
+
+      function fecharModalMover() {
+        document.getElementById("modalMoverAssistido").classList.remove("mostrar");
+      }
+
+      // 1. LISTAR: CONSOME /api/listar FILTRANDO METADADOS LIMPOS COM STATUS "QUERO"
+      function obterFilmesQueroAssistir() {
+        const container = document.getElementById("containerQueroAssistir");
+        const loader = document.getElementById("linhaCarregamento");
+        const listaVazia = document.getElementById("listaVazia");
+        const contador = document.getElementById("contadorFilmes");
+
+        fetch("/api/listar")
+          .then((res) => {
+            if (!res.ok) throw new Error("Erro na comunicação com o backend.");
+            return res.json();
+          })
+          .then((dados) => {
+            // Filtra localmente apenas os que possuem status "quero"
+            cacheLocalFilmes = dados.filter((filme) => filme.status === "quero");
+            
+            // Atualiza o marcador quantitativo
+            contador.textContent = `${cacheLocalFilmes.length} ${cacheLocalFilmes.length === 1 ? 'Filme' : 'Filmes'}`;
+
+            if (loader) loader.remove();
+
+            if (cacheLocalFilmes.length === 0) {
+              container.innerHTML = "";
+              listaVazia.classList.remove("d-none");
+              return;
+            }
+
+            listaVazia.classList.add("d-none");
+            container.innerHTML = "";
+
+            // Renderiza a estrutura limpa dos cards na Grid
+            cacheLocalFilmes.forEach((filme) => {
+              const posterLimpo = filme.poster_path ? filme.poster_path : "https://placehold.co/300x450/181818/ffffff?text=Sem+Poster";
+              
+              container.innerHTML += `
+                <div class="col" id="card-${filme.tmdb_id}">
+                  <div class="card card-filme shadow-sm">
+                    <img src="${posterLimpo}" class="card-img-top" alt="${filme.titulo}">
+                    <div class="card-body d-flex flex-column justify-content-between p-3">
+                      <div>
+                        <h5 class="movie-title mb-1" title="${filme.titulo}">${filme.titulo}</h5>
+                        <p class="movie-year text-danger fw-bold mb-2">${filme.ano}</p>
+                        <p class="movie-overview mb-3">${filme.sinopse || 'Sem sinopse disponível.'}</p>
+                      </div>
+                      <div class="d-grid gap-2">
+                        <button class="btn btn-netflix-red btn-sm py-2" onclick="abrirModalMover(${filme.tmdb_id}, '${filme.titulo.replace(/'/g, "\\'")}')">
+                          <i class="bi bi-check2"></i> Já Assisti
+                        </button>
+                        <button class="btn btn-outline-light btn-sm py-2" onclick="removerFilmeDaLista(${filme.tmdb_id})">
+                          <i class="bi bi-trash3"></i> Remover
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              `;
+            });
+          })
+          .catch((err) => {
+            if (loader) loader.remove();
+            exibirModalErro("Não foi possível carregar a lista: " + err.message);
+          });
+      }
+
+      // PREPARA OS CAMPOS DO FORMULARIO INTERNO DO POP-UP
+      function abrirModalMover(tmdbId, titulo) {
+        document.getElementById("formMoverFilme").reset();
+        document.getElementById("moverTmdbId").value = tmdbId;
+        document.getElementById("moverTituloExibicao").value = titulo;
+        document.getElementById("modalMoverAssistido").classList.add("mostrar");
+      }
+
+      // 2. MOVER PARA ASSISTIDOS: ATUALIZA STATUS E COMPILA NOVA CRITICA VIA /api/favoritar
+      function salvarComoAssistido(event) {
+        event.preventDefault();
+        
+        const tmdbId = document.getElementById("moverTmdbId").value;
+        const nota = document.getElementById("moverNota").value;
+        const criticaCompleta = document.getElementById("moverCritica").value;
+        
+        const filmeOriginal = cacheLocalFilmes.find((f) => f.tmdb_id == tmdbId);
+        if (!filmeOriginal) return;
+
+        // Dispara a requisição estruturada seguindo o modelo do app.py
+        fetch("/api/favoritar", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            tmdb_id: parseInt(tmdbId),
+            titulo: filmeOriginal.titulo,
+            poster_path: filmeOriginal.poster_path,
+            ano: filmeOriginal.ano,
+            sinopse: criticaCompleta, // Mapeia a opinião crítica para a coluna sinopse
+            status: "assistido",
+            nota: parseInt(nota)
+          })
+        })
+        .then((res) => {
+          if (!res.ok) throw new Error("Erro na requisição de atualização.");
+          return res.json();
+        })
+        .then((dados) => {
+          if (dados.status === "sucesso") {
+            fecharModalMover();
+            obterFilmesQueroAssistir(); // Re-renderiza a lista local instantaneamente
+          } else {
+            throw new Error(dados.erro || "Falha ao salvar dados");
+          }
+        })
+        .catch((err) => {
+          exibirModalErro("Erro ao processar alteração de status: " + err.message);
+        });
+      }
+
+      // 3. REMOVER: CONSOME /api/remover PARA RETIRAR COMPLETAMENTE DO BANCO DE DADOS
+      function removerFilmeDaLista(tmdbId) {
+        if (!confirm("Deseja mesmo remover permanentemente esta obra da sua lista de espera?")) return;
+
+        fetch("/api/remover", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ tmdb_id: parseInt(tmdbId) })
+        })
+        .then((res) => {
+          if (!res.ok) throw new Error("Falha de rede ao remover registro.");
+          return res.json();
+        })
+        .then((dados) => {
+          if (dados.status === "sucesso") {
+            obterFilmesQueroAssistir(); // Atualiza a vitrine de filmes em tempo real
+          } else {
+            throw new Error(dados.erro || "Falha do Supabase");
+          }
+        })
+        .catch((err) => {
+          exibirModalErro("Erro ao excluir registro: " + err.message);
+        });
+      }
+    </script>
+  </body>
+</html>
