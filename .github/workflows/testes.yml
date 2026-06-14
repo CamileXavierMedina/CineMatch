@@ -26,4 +26,4 @@ jobs:
 
     - name: Executar os Testes com Pytest
       run: |
-        python -m pytest
+        python -m pytest testes/
