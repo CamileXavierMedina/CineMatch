@@ -11,7 +11,7 @@ A proposta do sistema adota uma filosofia de design *clean*, focando 100% na usa
 ## 2. Principais Funcionalidades e Telas
 
 * **🔍 Tela Principal (`index.html`):** Rota inicial do sistema. Contém uma interface direta focada na barra de busca global. Ao digitar o nome de um filme, o sistema consome a API de cinema do TMDB em tempo real e exibe os resultados em cards, com botões para direcionar o filme para uma das listas.
-* **📌 Tela Quero Assistir (`quero_assistir.html`):** Uma tela dedicada para listar todos os filmes que o usuário salvou com o desejo de assistir no futuro. Exibe os metadados limpos e opção para remover ou mover para assistidos.
+* **📌 Tela Quero Assistir (`assistir.html`):** Uma tela dedicada para listar todos os filmes que o usuário salvou com o desejo de assistir no futuro. Exibe os metadados limpos e opção para remover ou mover para assistidos.
 * **⭐ Tela Já Assisti (`assistidos.html`):** Histórico completo das produções cinematográficas já visualizadas pelo usuário, integrando o sistema visual de avaliação por estrelas (nota de 1 a 5).
 
 ---
