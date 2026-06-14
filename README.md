@@ -16,7 +16,7 @@ A proposta do sistema adota um estilo visual inspirado na Netflix (Dark Mode com
 
 Interface inicial limpa e focada nos cards de ponte para as listas. Os utilizadores podem aceder diretamente à lista de desejos ou ao histórico de críticas.
 
-## Tela Quero Assistir (`quero_assistir.html`)
+## Tela Quero Assistir (`assistir.html`)
 
 Uma lista de desejos dedicada para guardar produções que planeia ver no futuro, permitindo mover o filme para a lista de assistidos ou removê-lo a qualquer momento.
 
