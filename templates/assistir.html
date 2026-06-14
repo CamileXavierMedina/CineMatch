@@ -4,12 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CineMatch - Quero Assistir</title>
-    <!-- BOOTSTRAP 5 CSS PARA ESTRUTURACAO E RESPONSIVIDADE -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
-    <!-- ICONES DO BOOTSTRAP -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
       rel="stylesheet"
@@ -21,7 +19,7 @@
         background-color: #141414;
         color: #ffffff;
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-        padding-top: 100px; /* COMPENSACAO AJUSTADA PARA FICAR MAIS PROXIMO DA BARRA FIXA */
+        padding-top: 100px;
       }
 
       /* BARRA DE NAVEGACAO ESTILO CABECALHO DA NETFLIX */
@@ -43,9 +41,7 @@
         color: #ffffff !important;
         border: 1px solid #ffffff !important;
         font-weight: bold;
-        transition:
-          background-color 0.2s,
-          border-color 0.2s;
+        transition: background-color 0.2s, border-color 0.2s;
       }
 
       .btn-voltar:hover {
@@ -74,54 +70,48 @@
         background-color: #b80710 !important;
       }
 
-      /* CARDS DE EXIBICAO DOS FILMES (VITRINE ESTILO NETFLIX) */
-      .card-filme {
-        background-color: #181818;
-        border: 1px solid #2f2f2f;
+      /* CARCACA DA TABELA ESTILO NETFLIX */
+      .table-netflix {
+        background-color: #181818 !important;
+        border: 1px solid #2f2f2f !important;
+        border-collapse: separate;
+        border-spacing: 0;
         border-radius: 6px;
         overflow: hidden;
-        transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
-        height: 100%;
       }
 
-      .card-filme:hover {
-        transform: scale(1.03);
-        border-color: #e50914;
-        box-shadow: 0 8px 25px rgba(229, 9, 20, 0.2);
+      .table-netflix th {
+        background-color: #000000 !important;
+        color: #e50914 !important;
+        font-weight: bold;
+        border-bottom: 2px solid #2f2f2f !important;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        padding: 15px;
       }
 
-      .card-filme img {
-        width: 100%;
-        height: 360px;
+      .table-netflix td {
+        background-color: #181818 !important;
+        border-bottom: 1px solid #2f2f2f !important;
+        padding: 15px;
+        color: #cccccc;
+      }
+
+      .table-netflix tbody tr:last-child td {
+        border-bottom: none !important;
+      }
+
+      .table-netflix tbody tr:hover td {
+        background-color: #222222 !important;
+      }
+
+      .img-poster-tabela {
+        width: 45px;
+        height: 68px;
         object-fit: cover;
+        border-radius: 4px;
         background-color: #2b2b2b;
-        border-bottom: 1px solid #2f2f2f;
-      }
-
-      .movie-title {
-        font-size: 1.15rem;
-        font-weight: 700;
-        color: #ffffff;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-line-clamp: 1;
-        -webkit-box-orient: vertical;
-      }
-
-      .movie-year {
-        font-size: 0.85rem;
-      }
-
-      .movie-overview {
-        font-size: 0.85rem;
-        color: #aaaaaa;
-        height: 4.5rem;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-line-clamp: 4;
-        -webkit-box-orient: vertical;
+        border: 1px solid #444;
       }
 
       /* MODAIS ESTILO NETFLIX */
@@ -190,26 +180,32 @@
         gap: 10px;
       }
 
-      /* CAMPOS DE FORMULARIO ESTILO NETFLIX */
       .form-control-netflix {
         background-color: #2b2b2b !important;
         border: 1px solid #444 !important;
         color: #ffffff !important;
       }
 
-      .form-control-netflix option {
-        background-color: #1c1c1c !important;
-        color: #ffffff !important;
+      .form-control-netflix::placeholder {
+        color: #999999 !important;
       }
 
-      .form-control-netflix:focus {
-        border-color: #e50914 !important;
-        box-shadow: 0 0 0 0.25rem rgba(229, 9, 20, 0.25) !important;
+      /* RESULTADOS DE BUSCA RAPIDA NO MODAL */
+      .item-busca-modal {
+        background-color: #2b2b2b;
+        border: 1px solid #444;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.2s, border-color 0.2s;
+      }
+
+      .item-busca-modal:hover {
+        background-color: #3e3e3e;
+        border-color: #e50914;
       }
     </style>
   </head>
   <body>
-    <!-- BARRA DE NAVEGACAO SUPERIOR (FIXA, LOGO CENTRALIZADO E BOTAO DE VOLTAR) -->
     <nav class="navbar navbar-custom py-2 shadow-lg fixed-top">
       <div class="container d-flex justify-content-center align-items-center position-relative">
         <a href="/" class="btn btn-voltar btn-sm position-absolute start-0 ms-3">
@@ -222,84 +218,159 @@
     </nav>
 
     <div class="container pb-5">
-      <!-- CABECALHO DA TELA -->
       <div class="d-flex justify-content-between align-items-center mt-2 mb-4 flex-wrap gap-3">
         <div class="text-start">
           <h1 class="titulo-pagina text-white mb-1">
-            Lista de <span class="text-danger">Espera</span>
+            Minha Lista de <span class="text-danger">Desejos</span>
           </h1>
           <p class="text-secondary small mb-0">
-            Gerencie as obras que planeja assistir a seguir ou mova-as para o seu histórico de críticas!
+            Gerencie os filmes que você planeja e pretende assistir a seguir!
           </p>
         </div>
-        <span class="badge bg-dark border border-secondary px-3 py-2" id="contadorFilmes">0 Filmes</span>
+        <button onclick="abrirModalAdicionar()" class="btn btn-netflix-red px-4 py-2">
+          <i class="bi bi-plus-lg"></i> Adicionar à Lista
+        </button>
       </div>
 
-      <!-- CONTAINER PRINCIPAL DO GRID DE CARDS -->
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4" id="containerQueroAssistir">
-        <!-- RENDERIZADO DINAMICAMENTE PELO JAVASCRIPT -->
-        <div class="col-12 text-center py-5 text-secondary" id="linhaCarregamento">
-          <div class="spinner-border text-danger mb-3" role="status"></div>
-          <div>A aceder à base de dados do Supabase...</div>
-        </div>
-      </div>
-
-      <!-- CONTAINER EM CASO DE LISTA COMPLETAMENTE VAZIA -->
-      <div id="listaVazia" class="text-center py-5 d-none" style="background-color: #181818; border: 1px dashed #2f2f2f; border-radius: 6px;">
-        <i class="bi bi-bookmark-plus text-secondary fs-1 mb-2 d-block"></i>
-        <h4 class="text-white fw-bold mb-1">Sua lista de desejos está vazia</h4>
-        <p class="text-secondary small mb-3">Volte à página inicial e use a barra de busca para salvar títulos aqui.</p>
-        <a href="/" class="btn btn-netflix-red btn-sm px-4 py-2">Explorar Filmes</a>
+      <div class="table-responsive">
+        <table class="table table-netflix align-middle mb-0">
+          <thead>
+            <tr>
+              <th scope="col" style="width: 80px">Poster</th>
+              <th scope="col">Título do Filme</th>
+              <th scope="col" style="width: 120px">Ano</th>
+              <th scope="col">Nota / Lembrete Interno</th>
+              <th scope="col" class="text-end" style="width: 320px">Ações</th>
+            </tr>
+          </thead>
+          <tbody id="corpoTabelaQueroAssistir">
+            <tr id="linhaCarregamento">
+              <td colspan="5" class="text-center py-5 text-secondary">
+                <div class="spinner-border text-danger mb-3" role="status"></div>
+                <div>A aceder à base de dados do Supabase...</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
-    <!-- POP-UP MODAL: MOVER PARA ASSISTIDOS E COLETAR AVALIACAO (UPDATE STATUS) -->
-    <div id="modalMoverAssistido" class="modal-erro-overlay">
-      <div class="modal-erro-container">
-        <button class="btn-fechar-modal" onclick="fecharModalMover()">
+    <div id="modalAdicionar" class="modal-erro-overlay">
+      <div class="modal-erro-container" style="max-height: 90vh; overflow-y: auto">
+        <button class="btn-fechar-modal" onclick="fecharModalAdicionar()">
           &times;
         </button>
         <div class="modal-erro-titulo text-white">
-          <i class="bi bi-star-fill text-danger"></i> Avaliar Filme Assistido
+          <i class="bi bi-bookmark-plus text-danger"></i> Adicionar à Lista de Desejos
         </div>
-        
-        <form id="formMoverFilme" onsubmit="salvarComoAssistido(event)">
-          <input type="hidden" id="moverTmdbId" />
-          
-          <div class="mb-3">
-            <label class="form-label text-secondary small">Título do Filme</label>
-            <input type="text" id="moverTituloExibicao" class="form-control form-control-netflix" readonly disabled />
-          </div>
 
-          <div class="mb-3">
-            <label class="form-label text-secondary small">Sua Classificação (Estrelas) *</label>
-            <select id="moverNota" class="form-select form-control-netflix" required>
-              <option value="5">5 Estrelas (Excelente)</option>
-              <option value="4">4 Estrelas (Muito Bom)</option>
-              <option value="3">3 Estrelas (Bom)</option>
-              <option value="2">2 Estrelas (Regular)</option>
-              <option value="1">1 Estrela (Fraco)</option>
-            </select>
+        <div id="secaoPesquisaModal" class="mb-3">
+          <label class="form-label text-secondary small">Buscar Título na API do TMDB *</label>
+          <div class="input-group">
+            <input
+              type="text"
+              id="inputPesquisaModal"
+              class="form-control form-control-netflix"
+              placeholder="Escreva o nome do filme (Ex: Missão Impossível)"
+            />
+            <button class="btn btn-netflix-red" type="button" onclick="pesquisarFilmeNoModal()">
+              Buscar
+            </button>
           </div>
+          <div
+            id="containerResultadosModal"
+            class="mt-2"
+            style="max-height: 180px; overflow-y: auto"
+          ></div>
+        </div>
+
+        <div id="secaoFilmeSelecionado" class="d-none p-3 mb-3 bg-dark border border-secondary rounded">
+          <div class="d-flex align-items-center gap-3">
+            <img
+              id="selecionadoPoster"
+              src=""
+              style="width: 60px; height: 90px; object-fit: cover"
+              class="rounded border border-secondary"
+            />
+            <div class="flex-grow-1">
+              <h6 id="selecionadoAuthorized" class="text-white mb-1 fw-bold"></h6>
+              <h6 id="selecionadoTitulo" class="text-white mb-1 fw-bold"></h6>
+              <span id="selecionadoAno" class="badge bg-danger"></span>
+            </div>
+            <button class="btn btn-sm btn-outline-light" onclick="redefinirSelecaoModal()">
+              Alterar
+            </button>
+          </div>
+        </div>
+
+        <form id="formAdicionarFilme" onsubmit="salvarNovoFilme(event)" class="mt-3">
+          <input type="hidden" id="addTmdbId" />
+          <input type="hidden" id="addTitulo" />
+          <input type="hidden" id="addAno" />
+          <input type="hidden" id="addPoster" />
 
           <div class="mb-4">
-            <label class="form-label text-secondary small">Sua Crítica / Opinião Pessoal *</label>
-            <textarea id="moverCritica" class="form-control form-control-netflix" rows="3" required placeholder="O que achou deste filme? Conte sua experiência para o histórico..."></textarea>
+            <label class="form-label text-secondary small">Lembrete / Nota Opcional (Ex: Onde assistir, com quem)</label>
+            <textarea
+              id="addSinopse"
+              class="form-control form-control-netflix"
+              rows="3"
+              placeholder="Ex: Disponível na Netflix, indicação do fulano..."
+            ></textarea>
           </div>
 
           <div class="text-end d-flex gap-2 justify-content-end">
-            <button type="button" class="btn btn-sm btn-outline-light px-4" onclick="fecharModalMover()">
+            <button
+              type="button"
+              class="btn btn-sm btn-outline-light px-4"
+              onclick="fecharModalAdicionar()"
+            >
               Cancelar
             </button>
-            <button type="submit" class="btn btn-sm btn-netflix-red px-4">
-              Salvar no Histórico
+            <button type="submit" id="btnSalvarFilme" class="btn btn-sm btn-netflix-red px-4" disabled>
+              Adicionar à Lista
             </button>
           </div>
         </form>
       </div>
     </div>
 
-    <!-- POP-UP MODAL: FALHA DE LIGACAO -->
+    <div id="modalEditar" class="modal-erro-overlay">
+      <div class="modal-erro-container">
+        <button class="btn-fechar-modal" onclick="fecharModalEditar()">
+          &times;
+        </button>
+        <div class="modal-erro-titulo text-white">
+          <i class="bi bi-pencil-square text-danger"></i> Editar Informações
+        </div>
+        <form id="formEditarFilme" onsubmit="salvarEdicao(event)">
+          <input type="hidden" id="editTmdbId" />
+          <div class="mb-3">
+            <label class="form-label text-secondary small">Título do Filme</label>
+            <input
+              type="text"
+              id="editTituloExibicao"
+              class="form-control form-control-netflix"
+              readonly
+              disabled
+            />
+          </div>
+          <div class="mb-4">
+            <label class="form-label text-secondary small">Editar Lembrete / Nota Interna</label>
+            <textarea id="editSinopse" class="form-control form-control-netflix" rows="4"></textarea>
+          </div>
+          <div class="text-end d-flex gap-2 justify-content-end">
+            <button type="button" class="btn btn-sm btn-outline-light px-4" onclick="fecharModalEditar()">
+              Cancelar
+            </button>
+            <button type="submit" class="btn btn-sm btn-netflix-red px-4">
+              Atualizar Dados
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
     <div id="modalErro" class="modal-erro-overlay">
       <div class="modal-erro-container">
         <button class="btn-fechar-modal" onclick="fecharModalErro()">
@@ -308,9 +379,7 @@
         <div class="modal-erro-titulo">
           <i class="bi bi-exclamation-triangle-fill"></i> Falha de Ligação
         </div>
-        <p id="modalErroMensagem" class="text-white small mb-4">
-          Ocorreu um erro ao tentar comunicar com a base de dados do Supabase.
-        </p>
+        <p id="modalErroMensagem" class="text-white small mb-4"></p>
         <div class="text-end">
           <button class="btn btn-sm btn-outline-light px-4" onclick="fecharModalErro()">
             Fechar
@@ -319,12 +388,10 @@
       </div>
     </div>
 
-    <!-- LOGICA JAVASCRIPT EM VANILLA INTEGRADA AS ROTAS DO SEU APP.PY -->
     <script>
-      let cacheLocalFilmes = [];
+      let filmesCarregados = [];
 
-      // EXECUTA A BUSCA AUTOMATICA AO CARREGAR A PAGINA
-      document.addEventListener("DOMContentLoaded", obterFilmesQueroAssistir);
+      document.addEventListener("DOMContentLoaded", obterFilmesParaAssistir);
 
       function exibirModalErro(mensagem) {
         document.getElementById("modalErroMensagem").textContent = mensagem;
@@ -335,147 +402,308 @@
         document.getElementById("modalErro").classList.remove("mostrar");
       }
 
-      function fecharModalMover() {
-        document.getElementById("modalMoverAssistido").classList.remove("mostrar");
+      function abrirModalAdicionar() {
+        document.getElementById("formAdicionarFilme").reset();
+        redefinirSelecaoModal();
+        document.getElementById("modalAdicionar").classList.add("mostrar");
       }
 
-      // 1. LISTAR: CONSOME /api/listar FILTRANDO METADADOS LIMPOS COM STATUS "QUERO"
-      function obterFilmesQueroAssistir() {
-        const container = document.getElementById("containerQueroAssistir");
-        const loader = document.getElementById("linhaCarregamento");
-        const listaVazia = document.getElementById("listaVazia");
-        const contador = document.getElementById("contadorFilmes");
+      function fecharModalAdicionar() {
+        document.getElementById("modalAdicionar").classList.remove("mostrar");
+      }
 
-        fetch("/api/listar")
+      function fecharModalEditar() {
+        document.getElementById("modalEditar").classList.remove("mostrar");
+      }
+
+      function pesquisarFilmeNoModal() {
+        const query = document.getElementById("inputPesquisaModal").value.trim();
+        const container = document.getElementById("containerResultadosModal");
+        if (!query) return;
+
+        container.innerHTML = `<div class="text-center py-2 text-secondary small"><span class="spinner-border spinner-border-sm text-danger me-2"></span>A buscar filmes...</div>`;
+
+        fetch(`/api/buscar?query=${encodeURIComponent(query)}`)
           .then((res) => {
-            if (!res.ok) throw new Error("Erro na comunicação com o backend.");
+            if (!res.ok) {
+              return res.json().then((dadosErro) => {
+                throw new Error(dadosErro.erro || `Erro HTTP ${res.status}`);
+              });
+            }
             return res.json();
           })
-          .then((dados) => {
-            // Filtra localmente apenas os que possuem status "quero"
-            cacheLocalFilmes = dados.filter((filme) => filme.status === "quero");
-            
-            // Atualiza o marcador quantitativo
-            contador.textContent = `${cacheLocalFilmes.length} ${cacheLocalFilmes.length === 1 ? 'Filme' : 'Filmes'}`;
-
-            if (loader) loader.remove();
-
-            if (cacheLocalFilmes.length === 0) {
-              container.innerHTML = "";
-              listaVazia.classList.remove("d-none");
+          .then((data) => {
+            container.innerHTML = "";
+            if (!data || !Array.isArray(data) || data.length === 0) {
+              container.innerHTML = `<div class="text-center text-secondary small py-2">Nenhum título encontrado para "${query}"</div>`;
               return;
             }
 
-            listaVazia.classList.add("d-none");
-            container.innerHTML = "";
-
-            // Renderiza a estrutura limpa dos cards na Grid
-            cacheLocalFilmes.forEach((filme) => {
-              const posterLimpo = filme.poster_path ? filme.poster_path : "https://placehold.co/300x450/181818/ffffff?text=Sem+Poster";
+            data.forEach((filme) => {
+              const poster_url = filme.poster_path || "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?q=80&w=300&auto=format&fit=crop";
               
-              container.innerHTML += `
-                <div class="col" id="card-${filme.tmdb_id}">
-                  <div class="card card-filme shadow-sm">
-                    <img src="${posterLimpo}" class="card-img-top" alt="${filme.titulo}">
-                    <div class="card-body d-flex flex-column justify-content-between p-3">
-                      <div>
-                        <h5 class="movie-title mb-1" title="${filme.titulo}">${filme.titulo}</h5>
-                        <p class="movie-year text-danger fw-bold mb-2">${filme.ano}</p>
-                        <p class="movie-overview mb-3">${filme.sinopse || 'Sem sinopse disponível.'}</p>
-                      </div>
-                      <div class="d-grid gap-2">
-                        <button class="btn btn-netflix-red btn-sm py-2" onclick="abrirModalMover(${filme.tmdb_id}, '${filme.titulo.replace(/'/g, "\\'")}')">
-                          <i class="bi bi-check2"></i> Já Assisti
-                        </button>
-                        <button class="btn btn-outline-light btn-sm py-2" onclick="removerFilmeDaLista(${filme.tmdb_id})">
-                          <i class="bi bi-trash3"></i> Remover
-                        </button>
-                      </div>
-                    </div>
-                  </div>
+              const item = document.createElement("div");
+              item.className = "item-busca-modal p-2 d-flex align-items-center gap-2 mb-2";
+              item.innerHTML = `
+                <img src="${poster_url}" style="width: 35px; height: 50px; object-fit: cover;" class="rounded">
+                <div class="text-start">
+                  <div class="text-white small fw-bold mb-0">${filme.titulo}</div>
+                  <span class="text-secondary small" style="font-size: 0.75rem;">${filme.ano}</span>
                 </div>
+              `;
+              
+              item.onclick = function() {
+                selecionarFilmeNoModal(filme);
+              };
+
+              container.appendChild(item);
+            });
+          })
+          .catch((err) => {
+            container.innerHTML = `<div class="text-center text-danger small py-2">Erro: ${err.message}</div>`;
+          });
+      }
+
+      function selecionarFilmeNoModal(filme) {
+        document.getElementById("addTmdbId").value = filme.tmdb_id;
+        document.getElementById("addTitulo").value = filme.titulo;
+        document.getElementById("addAno").value = filme.ano;
+        document.getElementById("addPoster").value = filme.poster_path || "";
+
+        document.getElementById("selecionadoPoster").src = filme.poster_path || "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?q=80&w=300&auto=format&fit=crop";
+        document.getElementById("selecionadoTitulo").textContent = filme.titulo;
+        document.getElementById("selecionadoAno").textContent = filme.ano;
+
+        document.getElementById("secaoPesquisaModal").classList.add("d-none");
+        document.getElementById("secaoFilmeSelecionado").classList.remove("d-none");
+        document.getElementById("btnSalvarFilme").removeAttribute("disabled");
+      }
+
+      function redefinirSelecaoModal() {
+        document.getElementById("addTmdbId").value = "";
+        document.getElementById("addTitulo").value = "";
+        document.getElementById("addAno").value = "";
+        document.getElementById("addPoster").value = "";
+        document.getElementById("inputPesquisaModal").value = "";
+        document.getElementById("containerResultadosModal").innerHTML = "";
+
+        document.getElementById("secaoPesquisaModal").className = "mb-3";
+        document.getElementById("secaoFilmeSelecionado").className = "d-none p-3 mb-3 bg-dark border border-secondary rounded";
+        document.getElementById("btnSalvarFilme").setAttribute("disabled", "true");
+      }
+
+      function salvarNovoFilme(event) {
+        event.preventDefault();
+
+        const tmdb_id = parseInt(document.getElementById("addTmdbId").value);
+        const titulo = document.getElementById("addTitulo").value;
+        const ano = document.getElementById("addAno").value;
+        const poster_path = document.getElementById("addPoster").value;
+        const sinopse = document.getElementById("addSinopse").value.trim();
+
+        if (!tmdb_id || !titulo) {
+          exibirModalErro("Por favor, selecione primeiro um filme da lista!");
+          return;
+        }
+
+        const payload = {
+          tmdb_id: tmdb_id,
+          titulo: titulo,
+          poster_path: poster_path,
+          ano: ano,
+          sinopse: sinopse, 
+          status: "quero",
+          nota: 0,
+        };
+
+        fetch("/api/favoritar", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        })
+          .then((res) => {
+            if (!res.ok) {
+              return res.json().then((dadosErro) => {
+                throw new Error(dadosErro.erro || "Não foi possível registar o filme.");
+              });
+            }
+            return res.json();
+          })
+          .then(() => {
+            fecharModalAdicionar();
+            obterFilmesParaAssistir();
+          })
+          .catch((err) => {
+            fecharModalAdicionar();
+            exibirModalErro("Erro ao adicionar filme: " + err.message);
+          });
+      }
+
+      function obterFilmesParaAssistir() {
+        const container = document.getElementById("corpoTabelaQueroAssistir");
+
+        fetch("/api/listar")
+          .then((res) => {
+            if (!res.ok) {
+              return res.json().then((dadosErro) => {
+                throw new Error(dadosErro.erro || "Falha na resposta do servidor.");
+              });
+            }
+            return res.json();
+          })
+          .then((data) => {
+            if (!data || !Array.isArray(data)) {
+              throw new Error("Formato de dados inválido recebido.");
+            }
+
+            filmesCarregados = data.filter((f) => f.status === "quero");
+
+            if (filmesCarregados.length === 0) {
+              container.innerHTML = `
+                <tr>
+                  <td colspan="5" class="text-center text-secondary py-5">
+                    <i class="bi bi-bookmark-plus fs-1 text-danger d-block mb-3"></i>
+                    <span>Sua lista está vazia! Clique em "Adicionar à Lista" para planejar seus próximos filmes.</span>
+                  </td>
+                </tr>
+              `;
+              return;
+            }
+
+            container.innerHTML = "";
+            filmesCarregados.forEach((filme) => {
+              const posterUrl = filme.poster_path || "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?q=80&w=300&auto=format&fit=crop";
+
+              container.innerHTML += `
+                <tr id="linha-${filme.tmdb_id}">
+                  <td>
+                    <img src="${posterUrl}" class="img-poster-tabela" alt="${filme.titulo}">
+                  </td>
+                  <td class="fw-bold text-white">${filme.titulo}</td>
+                  <td><span class="badge bg-secondary">${filme.ano}</span></td>
+                  <td class="text-truncate" style="max-width: 300px;">${filme.sinopse || '<span class="text-muted small">Nenhum lembrete adicionado.</span>'}</td>
+                  <td class="text-end">
+                    <div class="d-flex gap-2 justify-content-end">
+                      <button onclick="marcarComoAssistido(${filme.tmdb_id})" class="btn btn-sm btn-netflix-red">
+                        <i class="bi bi-check-lg"></i> Já Assisti!
+                      </button>
+                      <button onclick="abrirModalEditar(${filme.tmdb_id})" class="btn btn-sm btn-outline-warning">
+                        <i class="bi bi-pencil-fill"></i> Editar
+                      </button>
+                      <button onclick="removerFilme(${filme.tmdb_id})" class="btn btn-sm btn-danger">
+                        <i class="bi bi-trash-fill"></i> Remover
+                      </button>
+                    </div>
+                  </td>
+                </tr>
               `;
             });
           })
           .catch((err) => {
-            if (loader) loader.remove();
-            exibirModalErro("Não foi possível carregar a lista: " + err.message);
+            exibirModalErro("Erro de ligação com a base de dados: " + err.message);
+            container.innerHTML = `
+              <tr>
+                <td colspan="5" class="text-center text-secondary py-5">
+                  <i class="bi bi-cloud-slash fs-1 text-danger d-block mb-3"></i>
+                  <span>Não foi possível carregar a sua lista de desejos.</span>
+                </td>
+              </tr>
+            `;
           });
       }
 
-      // PREPARA OS CAMPOS DO FORMULARIO INTERNO DO POP-UP
-      function abrirModalMover(tmdbId, titulo) {
-        document.getElementById("formMoverFilme").reset();
-        document.getElementById("moverTmdbId").value = tmdbId;
-        document.getElementById("moverTituloExibicao").value = titulo;
-        document.getElementById("modalMoverAssistido").classList.add("mostrar");
-      }
+      function marcarComoAssistido(tmdbId) {
+        const filme = filmesCarregados.find((f) => f.tmdb_id === tmdbId);
+        if (!filme) return;
 
-      // 2. MOVER PARA ASSISTIDOS: ATUALIZA STATUS E COMPILA NOVA CRITICA VIA /api/favoritar
-      function salvarComoAssistido(event) {
-        event.preventDefault();
-        
-        const tmdbId = document.getElementById("moverTmdbId").value;
-        const nota = document.getElementById("moverNota").value;
-        const criticaCompleta = document.getElementById("moverCritica").value;
-        
-        const filmeOriginal = cacheLocalFilmes.find((f) => f.tmdb_id == tmdbId);
-        if (!filmeOriginal) return;
+        const payload = {
+          tmdb_id: filme.tmdb_id,
+          titulo: filme.titulo,
+          poster_path: filme.poster_path,
+          ano: filme.ano,
+          sinopse: "Filme movido da lista de desejos.", 
+          status: "assistido",
+          nota: 5 
+        };
 
-        // Dispara a requisição estruturada seguindo o modelo do app.py
         fetch("/api/favoritar", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            tmdb_id: parseInt(tmdbId),
-            titulo: filmeOriginal.titulo,
-            poster_path: filmeOriginal.poster_path,
-            ano: filmeOriginal.ano,
-            sinopse: criticaCompleta, // Mapeia a opinião crítica para a coluna sinopse
-            status: "assistido",
-            nota: parseInt(nota)
-          })
+          body: JSON.stringify(payload)
         })
         .then((res) => {
-          if (!res.ok) throw new Error("Erro na requisição de atualização.");
+          if (!res.ok) throw new Error("Não foi possível mover o filme.");
           return res.json();
         })
-        .then((dados) => {
-          if (dados.status === "sucesso") {
-            fecharModalMover();
-            obterFilmesQueroAssistir(); // Re-renderiza a lista local instantaneamente
-          } else {
-            throw new Error(dados.erro || "Falha ao salvar dados");
-          }
+        .then(() => {
+          obterFilmesParaAssistir();
         })
         .catch((err) => {
-          exibirModalErro("Erro ao processar alteração de status: " + err.message);
+          exibirModalErro("Erro ao atualizar status: " + err.message);
         });
       }
 
-      // 3. REMOVER: CONSOME /api/remover PARA RETIRAR COMPLETAMENTE DO BANCO DE DADOS
-      function removerFilmeDaLista(tmdbId) {
-        if (!confirm("Deseja mesmo remover permanentemente esta obra da sua lista de espera?")) return;
+      function abrirModalEditar(tmdbId) {
+        const filme = filmesCarregados.find((f) => f.tmdb_id === tmdbId);
+        if (!filme) return;
+
+        document.getElementById("editTmdbId").value = filme.tmdb_id;
+        document.getElementById("editTituloExibicao").value = filme.titulo;
+        document.getElementById("editSinopse").value = filme.sinopse || '';
+
+        document.getElementById("modalEditar").classList.add("mostrar");
+      }
+
+      function salvarEdicao(event) {
+        event.preventDefault();
+
+        const tmdbId = parseInt(document.getElementById("editTmdbId").value);
+        const novaSinopse = document.getElementById("editSinopse").value.trim();
+
+        const payload = {
+          tmdb_id: tmdbId,
+          status: "quero",
+          nota: 0,
+          sinopse: novaSinopse,
+        };
+
+        fetch("/api/favoritar", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        })
+          .then((res) => {
+            if (!res.ok) throw new Error("Falha ao atualizar lembrete.");
+            return res.json();
+          })
+          .then(() => {
+            fecharModalEditar();
+            obterFilmesParaAssistir();
+          })
+          .catch((err) => {
+            fecharModalEditar();
+            exibirModalErro("Erro ao atualizar: " + err.message);
+          });
+      }
+
+      function removerFilme(tmdbId) {
+        if (!confirm("Deseja remover este filme da sua lista de desejos?")) return;
 
         fetch("/api/remover", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ tmdb_id: parseInt(tmdbId) })
+          body: JSON.stringify({ tmdb_id: tmdbId }),
         })
-        .then((res) => {
-          if (!res.ok) throw new Error("Falha de rede ao remover registro.");
-          return res.json();
-        })
-        .then((dados) => {
-          if (dados.status === "sucesso") {
-            obterFilmesQueroAssistir(); // Atualiza a vitrine de filmes em tempo real
-          } else {
-            throw new Error(dados.erro || "Falha do Supabase");
-          }
-        })
-        .catch((err) => {
-          exibirModalErro("Erro ao excluir registro: " + err.message);
-        });
+          .then((res) => {
+            if (!res.ok) throw new Error("Não foi possível remover o registro.");
+            return res.json();
+          })
+          .then(() => {
+            obterFilmesParaAssistir();
+          })
+          .catch((err) => {
+            exibirModalErro("Erro ao remover filme: " + err.message);
+          });
       }
     </script>
   </body>
