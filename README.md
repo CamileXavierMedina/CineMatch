@@ -278,7 +278,7 @@ Link disponível após conclusão do deploy no Render
 
 A aplicação CineMatch foi containerizada via Docker e publicada com sucesso em ambiente de nuvem. O sistema encontra-se totalmente funcional, integrado à API do TMDB e ao banco de dados Supabase, pronto para acesso público através do link abaixo:
 
-🚀 **Acesse o CineMatch aqui:** [(https://cinematch-5le1.onrender.com/)]
+*Acesse o CineMatch aqui:* https://cinematch-5le1.onrender.com/
 ---
 
 # Licença
