@@ -89,7 +89,7 @@ Banco de dados PostgreSQL hospedado na nuvem responsável pelo armazenamento de:
 
 | Categoria | Tecnologia |
 |------------|------------|
-| Back-end | Python 3.11+ / Flask |
+| Back-end | Python 3.10+ / Flask |
 | Consumo de API | Requests |
 | Banco de Dados | PostgreSQL (Supabase Cloud) |
 | Front-end | HTML5, CSS3, Bootstrap 5 e JavaScript Vanilla |
@@ -152,7 +152,7 @@ cinematch/
 
 ## Pré-requisitos
 
-- Python 3.11 ou superior
+- Python 3.10 ou superior
 - Git instalado
 
 ## Clone o Repositório
@@ -188,6 +188,7 @@ source venv/bin/activate
 ```
 
 ## Instale as Dependências
+(Certifique-se de que o arquivo requirements.txt inclua todas as bibliotecas do projeto: flask, supabase, pytest e requests-mock).
 
 ```bash
 pip install -r requirements.txt
@@ -270,7 +271,7 @@ Link disponível após conclusão do deploy no Render
 | Camile Xavier Medina | Proprietária do Repositório, Engenharia de Software, Desenvolvimento Back-end e Integrações de API |
 | Leticia | Desenvolvimento Front-end, Estruturação de Telas, UX/UI Core e Documentação Técnica |
 | Rafael | Administração e Modelagem de Banco de Dados Relacional (PostgreSQL e Supabase Cloud) |
-| Larissa | Arquitetura DevOps, Testes Automatizados (Pytest), Docker e Pipeline de Deploy |
+| Larissa | Arquitetura DevOps, Testes Automatizados (Pytest), Docker, Integração Contínua/CI e Pipeline de Deploy |
 
 ---
 
