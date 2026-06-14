@@ -4,19 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CineMatch - Quero Assistir</title>
-    <!-- BOOTSTRAP 5 CSS PARA ESTRUTURACAO E RESPONSIVIDADE -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
-    <!-- ICONES DO BOOTSTRAP -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
       rel="stylesheet"
     />
 
     <style>
-      /* ESTILO COSPLAY NETFLIX - ESCURO COM DETALHES EM VERMELHO VIBRANTE */
+      /* ESTILO COSPLAY NETFLIX */
       body {
         background-color: #141414;
         color: #ffffff;
@@ -24,7 +22,6 @@
         padding-top: 100px;
       }
 
-      /* BARRA DE NAVEGACAO ESTILO CABECALHO DA NETFLIX */
       .navbar-custom {
         background-color: #000000;
         border-bottom: 2px solid #1f1f1f;
@@ -37,7 +34,6 @@
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
       }
 
-      /* BOTAO DE VOLTAR MINIMALISTA ESTILO NETFLIX */
       .btn-voltar {
         background-color: transparent !important;
         color: #ffffff !important;
@@ -49,17 +45,13 @@
       .btn-voltar:hover {
         background-color: #ffffff !important;
         color: #000000 !important;
-        border-color: #ffffff !important;
       }
 
-      /* SECCAO DE CONTEUDO PRINCIPAL */
       .titulo-pagina {
         font-weight: 800;
         font-size: 1.8rem;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
       }
 
-      /* BOTOES ESTILO NETFLIX */
       .btn-netflix-red {
         background-color: #e50914 !important;
         color: #ffffff !important;
@@ -72,20 +64,100 @@
         background-color: #b80710 !important;
       }
 
-      /* CARDS DE EXIBICAO DOS FILMES (VITRINE ESTILO NETFLIX) */
+      /* INTERFACE DE BUSCA DENTRO DO POP-UP MENU */
+      .busca-wrapper-modal {
+        position: relative;
+        width: 100%;
+        margin-bottom: 15px;
+      }
+
+      .input-busca-netflix {
+        background-color: #2b2b2b !important;
+        border: 1px solid #444 !important;
+        color: #ffffff !important;
+        padding-left: 45px !important;
+        border-radius: 4px !important;
+        height: 45px;
+      }
+
+      .input-busca-netflix:focus {
+        border-color: #e50914 !important;
+        box-shadow: 0 0 0 0.25rem rgba(229, 9, 20, 0.25) !important;
+      }
+
+      .icone-lupa {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #aaaaaa;
+        pointer-events: none;
+        font-size: 1.2rem;
+      }
+
+      /* CONTAINER DE RESULTADOS DENTRO DO MENU */
+      .lista-resultados-menu {
+        background-color: #1c1c1c;
+        border: 1px solid #333;
+        border-radius: 4px;
+        max-height: 300px;
+        overflow-y: auto;
+      }
+
+      .item-resultado {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 12px 15px;
+        border-bottom: 1px solid #2b2b2b;
+        transition: background-color 0.2s;
+      }
+
+      .item-resultado:hover {
+        background-color: #2b2b2b;
+      }
+
+      .resultado-corpo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .item-resultado img {
+        width: 42px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 2px;
+        background-color: #141414;
+      }
+
+      .item-resultado-info h6 {
+        margin: 0;
+        color: #fff;
+        font-weight: 600;
+        font-size: 0.95rem;
+      }
+
+      .item-resultado-info p {
+        margin: 0;
+        color: #888;
+        font-size: 0.8rem;
+      }
+
+      /* CARDS DE EXIBICAO DOS FILMES */
       .card-filme {
         background-color: #181818;
         border: 1px solid #2f2f2f;
         border-radius: 6px;
         overflow: hidden;
-        transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+        transition: transform 0.3s, border-color 0.3s;
         height: 100%;
       }
 
       .card-filme:hover {
         transform: scale(1.03);
         border-color: #e50914;
-        box-shadow: 0 8px 25px rgba(229, 9, 20, 0.2);
       }
 
       .card-filme img {
@@ -93,22 +165,16 @@
         height: 360px;
         object-fit: cover;
         background-color: #2b2b2b;
-        border-bottom: 1px solid #2f2f2f;
       }
 
       .movie-title {
         font-size: 1.15rem;
         font-weight: 700;
-        color: #ffffff;
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
         -webkit-line-clamp: 1;
         -webkit-box-orient: vertical;
-      }
-
-      .movie-year {
-        font-size: 0.85rem;
       }
 
       .movie-overview {
@@ -122,85 +188,34 @@
         -webkit-box-orient: vertical;
       }
 
-      /* CENTRALIZACAO DO CARREGAMENTO DA CDR */
-      .carregamento-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        min-height: 200px;
-        width: 100%;
-      }
-
-      /* MODAIS ESTILO NETFLIX */
+      /* FIXAÇÃO E ANIMAÇÃO DOS MODAIS (MENUS SUSPENSOS) */
       .modal-erro-overlay {
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+        top: 0; left: 0; width: 100%; height: 100%;
         background-color: rgba(0, 0, 0, 0.85);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 2000;
-        opacity: 0;
-        pointer-events: none;
+        display: flex; align-items: center; justify-content: center;
+        z-index: 2000; opacity: 0; pointer-events: none;
         transition: opacity 0.3s ease;
       }
 
-      .modal-erro-overlay.mostrar {
-        opacity: 1;
-        pointer-events: auto;
-      }
+      .modal-erro-overlay.mostrar { opacity: 1; pointer-events: auto; }
 
       .modal-erro-container {
-        background-color: #181818;
-        border: 2px solid #e50914;
-        border-radius: 8px;
-        width: 90%;
-        max-width: 550px;
-        padding: 25px;
-        position: relative;
-        box-shadow: 0 10px 30px rgba(229, 9, 20, 0.3);
-        transform: scale(0.8);
-        transition: transform 0.3s ease;
+        background-color: #181818; border: 2px solid #333; border-radius: 8px;
+        width: 90%; max-width: 550px; padding: 25px; position: relative;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.7);
       }
 
-      .modal-erro-overlay.mostrar .modal-erro-container {
-        transform: scale(1);
+      .modal-menu-busca {
+        border-color: #e50914 !important;
       }
 
-      .btn-fechar-modal {
-        position: absolute;
-        top: 15px;
-        right: 15px;
-        background: transparent;
-        border: none;
-        color: #ffffff;
-        font-size: 1.5rem;
-        line-height: 1;
-        cursor: pointer;
-        transition: color 0.2s;
-      }
-
-      .btn-fechar-modal:hover {
-        color: #e50914;
-      }
-
-      .modal-erro-titulo {
-        font-size: 1.4rem;
-        font-weight: 800;
-        color: #e50914;
-        margin-bottom: 15px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
+      .form-control-netflix {
+        background-color: #2b2b2b !important; border: 1px solid #444 !important; color: #ffffff !important;
       }
     </style>
   </head>
   <body>
-    <!-- BARRA DE NAVEGACAO SUPERIOR -->
     <nav class="navbar navbar-custom py-2 shadow-lg fixed-top">
       <div class="container d-flex justify-content-center align-items-center position-relative">
         <a href="/" class="btn btn-voltar btn-sm position-absolute start-0 ms-3">
@@ -213,120 +228,244 @@
     </nav>
 
     <div class="container pb-5">
-      <!-- CABECALHO DA TELA ATUALIZADO COM BOTAO ADICIONAR FILMES -->
       <div class="d-flex justify-content-between align-items-center mt-2 mb-4 flex-wrap gap-3">
         <div class="text-start">
           <h1 class="titulo-pagina text-white mb-1">
             Lista de <span class="text-danger">Espera</span>
           </h1>
-          <p class="text-secondary small mb-0">
-            Gerencie as obras que planeja assistir a seguir.
-          </p>
+          <p class="text-secondary small mb-0">Gerencie as obras que planeja assistir a seguir.</p>
         </div>
-        <a href="/" class="btn btn-netflix-red btn-sm px-3 py-2 d-flex align-items-center gap-2 shadow">
-          <i class="bi bi-plus-lg"></i> Adicionar Filmes
-        </a>
+
+        <div class="d-flex gap-2 align-items-center">
+          <button class="btn btn-netflix-red btn-sm px-3 py-2 d-flex align-items-center gap-2" onclick="abrirMenuBusca()">
+            <i class="bi bi-plus-lg"></i> Adicionar Filme
+          </button>
+          <span class="badge bg-dark border border-secondary px-3 py-2" id="contadorFilmes">0 Filmes</span>
+        </div>
       </div>
 
-      <!-- CONTAINER DA TABELA/GRID DE DADOS -->
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4" id="containerQueroAssistir">
-        <!-- CENTRALIZADO: MENSAGEM DE CARREGAMENTO DA CDR -->
-        <div class="col-12 carregamento-container text-secondary" id="linhaCarregamento">
+        <div class="col-12 text-center py-5 text-secondary" id="linhaCarregamento">
           <div class="spinner-border text-danger mb-3" role="status"></div>
-          <div class="fw-bold text-white">A aceder à base de dados do Supabase...</div>
-          <span class="small text-muted">Aguardando resposta da tabela de dados...</span>
+          <div>Buscando sua lista no Supabase...</div>
         </div>
       </div>
 
-      <!-- CONTAINER EM CASO DE LISTA COMPLETAMENTE VAZIA -->
       <div id="listaVazia" class="text-center py-5 d-none" style="background-color: #181818; border: 1px dashed #2f2f2f; border-radius: 6px;">
         <i class="bi bi-bookmark-plus text-secondary fs-1 mb-2 d-block"></i>
         <h4 class="text-white fw-bold mb-1">Sua lista de desejos está vazia</h4>
-        <p class="text-secondary small mb-3">Use a barra de busca na página inicial para salvar títulos aqui.</p>
-        <a href="/" class="btn btn-netflix-red btn-sm px-4 py-2">Buscar Filmes</a>
+        <p class="text-secondary small mb-3">Clique no botão "Adicionar Filme" no topo para incluir sua primeira obra.</p>
+        <button class="btn btn-netflix-red btn-sm px-4 py-2" onclick="abrirMenuBusca()">Adicionar Agora</button>
       </div>
     </div>
 
-    <!-- POP-UP MODAL: VER DETALHES COMPLETOS DO FILME -->
-    <div id="modalDetalhes" class="modal-erro-overlay">
+    <div id="modalMenuBusca" class="modal-erro-overlay">
+      <div class="modal-erro-container modal-menu-busca">
+        <button class="btn btn-sm text-white position-absolute top-0 end-0 m-3 fs-4 border-0 bg-transparent" onclick="fecharMenuBusca()">&times;</button>
+        
+        <div class="text-white mb-3 fw-bold fs-5 d-flex align-items-center gap-2">
+          <i class="bi bi-film text-danger"></i> Buscar Novo Filme
+        </div>
+        
+        <div class="busca-wrapper-modal">
+          <i class="bi bi-search icone-lupa"></i>
+          <input 
+            type="text" 
+            id="inputBuscaTMDB" 
+            class="form-control input-busca-netflix" 
+            placeholder="Digite o nome do filme..." 
+            autocomplete="off"
+            oninput="buscarFilmesAPI()"
+          />
+        </div>
+
+        <div id="areaResultadosMenu" class="lista-resultados-menu d-none"></div>
+        <div id="mensagemStatusBusca" class="text-secondary small text-center py-3">
+          Digite algo acima para iniciar a busca na API...
+        </div>
+      </div>
+    </div>
+
+    <div id="modalMoverAssistido" class="modal-erro-overlay">
       <div class="modal-erro-container">
-        <button class="btn-fechar-modal" onclick="fecharModalDetalhes()">
-          &times;
-        </button>
-        <div class="modal-erro-titulo text-white" id="detalheTitulo">
-          <!-- TITULO DINAMICO -->
+        <button class="btn btn-sm text-white position-absolute top-0 end-0 m-3 fs-4 border-0 bg-transparent" onclick="fecharModalMover()">&times;</button>
+        <div class="modal-erro-titulo text-white mb-3 fw-bold fs-5">
+          <i class="bi bi-star-fill text-danger"></i> Avaliar Filme Assistido
         </div>
-        <div class="row g-3">
-          <div class="col-md-4 text-center">
-            <img src="" id="detalhePoster" class="img-fluid rounded border border-secondary" alt="Poster" style="max-height: 240px; object-fit: cover;">
+        
+        <form id="formMoverFilme" onsubmit="salvarComoAssistido(event)">
+          <input type="hidden" id="moverTmdbId" />
+          <div class="mb-3">
+            <label class="form-label text-secondary small">Título do Filme</label>
+            <input type="text" id="moverTituloExibicao" class="form-control form-control-netflix" readonly disabled />
           </div>
-          <div class="col-md-8">
-            <p class="text-danger fw-bold mb-1" id="detalheAno"><!-- ANO --></p>
-            <p class="text-secondary small mb-0">Sinopse da Obra:</p>
-            <p class="text-white small" id="detalheSinopse" style="max-height: 150px; overflow-y: auto;"><!-- SINOPSE --></p>
+          <div class="mb-3">
+            <label class="form-label text-secondary small">Sua Classificação *</label>
+            <select id="moverNota" class="form-select form-control-netflix" required>
+              <option value="5">5 Estrelas (Excelente)</option>
+              <option value="4">4 Estrelas (Muito Bom)</option>
+              <option value="3">3 Estrelas (Bom)</option>
+              <option value="2">2 Estrelas (Regular)</option>
+              <option value="1">1 Estrela (Fraco)</option>
+            </select>
           </div>
-        </div>
-        <div class="text-end mt-4">
-          <button class="btn btn-sm btn-outline-light px-4" onclick="fecharModalDetalhes()">
-            Fechar
-          </button>
-        </div>
+          <div class="mb-4">
+            <label class="form-label text-secondary small">Sua Crítica *</label>
+            <textarea id="moverCritica" class="form-control form-control-netflix" rows="3" required placeholder="O que achou deste filme?"></textarea>
+          </div>
+          <div class="text-end d-flex gap-2 justify-content-end">
+            <button type="button" class="btn btn-sm btn-outline-light px-4" onclick="fecharModalMover()">Cancelar</button>
+            <button type="submit" class="btn btn-sm btn-netflix-red px-4">Salvar no Histórico</button>
+          </div>
+        </form>
       </div>
     </div>
 
-    <!-- POP-UP MODAL: FALHA DE LIGACAO -->
     <div id="modalErro" class="modal-erro-overlay">
-      <div class="modal-erro-container">
-        <button class="btn-fechar-modal" onclick="fecharModalErro()">
-          &times;
-        </button>
-        <div class="modal-erro-titulo">
-          <i class="bi bi-exclamation-triangle-fill"></i> Falha de Ligação
-        </div>
-        <p id="modalErroMensagem" class="text-white small mb-4">
-          Ocorreu um erro ao tentar comunicar com a base de dados do Supabase.
-        </p>
-        <div class="text-end">
-          <button class="btn btn-sm btn-outline-light px-4" onclick="fecharModalErro()">
-            Fechar
-          </button>
-        </div>
+      <div class="modal-erro-container text-center border-danger">
+        <div class="text-danger fs-1 mb-2"><i class="bi bi-exclamation-triangle-fill"></i></div>
+        <h5 class="text-white fw-bold mb-2">Ops! Ocorreu um problema</h5>
+        <p id="modalErroMensagem" class="text-secondary small mb-4"></p>
+        <button class="btn btn-sm btn-outline-light px-4" onclick="fecharModalErro()">Fechar</button>
       </div>
     </div>
 
-    <!-- LOGICA JAVASCRIPT EM VANILLA INTEGRADA AS ROTAS DO SEU APP.PY -->
     <script>
       let cacheLocalFilmes = [];
+      let timeoutBusca = null;
 
       document.addEventListener("DOMContentLoaded", obterFilmesQueroAssistir);
 
-      function exibirModalErro(mensagem) {
-        document.getElementById("modalErroMensagem").textContent = mensagem;
+      // Controle de abertura do menu de busca
+      function abrirMenuBusca() {
+        document.getElementById("inputBuscaTMDB").value = "";
+        document.getElementById("areaResultadosMenu").classList.add("d-none");
+        document.getElementById("mensagemStatusBusca").classList.remove("d-none");
+        document.getElementById("mensagemStatusBusca").textContent = "Digite algo acima para iniciar a busca na API...";
+        document.getElementById("modalMenuBusca").classList.add("mostrar");
+        setTimeout(() => document.getElementById("inputBuscaTMDB").focus(), 200);
+      }
+
+      function fecharMenuBusca() {
+        document.getElementById("modalMenuBusca").classList.remove("mostrar");
+      }
+
+      function exibirModalErro(m) {
+        document.getElementById("modalErroMensagem").textContent = m;
         document.getElementById("modalErro").classList.add("mostrar");
       }
+      
+      function fecharModalErro() { document.getElementById("modalErro").classList.remove("mostrar"); }
+      function fecharModalMover() { document.getElementById("modalMoverAssistido").classList.remove("mostrar"); }
 
-      function fecharModalErro() {
-        document.getElementById("modalErro").classList.remove("mostrar");
+      // BUSCA NA API INTERNA DO FLASK PELO INPUT DO POP-UP
+      function buscarFilmesAPI() {
+        const query = document.getElementById("inputBuscaTMDB").value.trim();
+        const painelResultados = document.getElementById("areaResultadosMenu");
+        const msgStatus = document.getElementById("mensagemStatusBusca");
+
+        clearTimeout(timeoutBusca);
+        if (query.length < 2) {
+          painelResultados.classList.add("d-none");
+          msgStatus.classList.remove("d-none");
+          msgStatus.textContent = "Digite pelo menos 2 caracteres para buscar...";
+          return;
+        }
+
+        msgStatus.textContent = "Buscando correspondências na API...";
+
+        timeoutBusca = setTimeout(() => {
+          fetch(`/api/buscar?query=${encodeURIComponent(query)}`)
+            .then(res => res.json())
+            .then(filmes => {
+              if (!filmes || filmes.length === 0) {
+                painelResultados.classList.add("d-none");
+                msgStatus.classList.remove("d-none");
+                msgStatus.textContent = "Nenhum filme localizado com este nome.";
+                return;
+              }
+
+              msgStatus.classList.add("d-none");
+              painelResultados.innerHTML = "";
+              painelResultados.classList.remove("d-none");
+
+              filmes.slice(0, 8).forEach(filme => {
+                const poster = filme.poster_path ? `https://image.tmdb.org/t/p/w92${filme.poster_path}` : "https://placehold.co/42x60/181818/ffffff?text=X";
+                const ano = filme.release_date ? filme.release_date.split("-")[0] : "N/A";
+                
+                const dadosTratados = JSON.stringify({
+                  id: filme.id,
+                  title: filme.title.replace(/"/g, '&quot;').replace(/'/g, "\\'"),
+                  poster_path: filme.poster_path,
+                  release_date: ano,
+                  overview: (filme.overview || "").replace(/"/g, '&quot;').replace(/'/g, "\\'")
+                });
+
+                painelResultados.innerHTML += `
+                  <div class="item-resultado">
+                    <div class="resultado-corpo">
+                      <img src="${poster}" alt="Poster">
+                      <div class="item-resultado-info">
+                        <h6>${filme.title}</h6>
+                        <p>${ano}</p>
+                      </div>
+                    </div>
+                    <button class="btn btn-netflix-red btn-sm px-3" onclick='adicionarFilmeDaBusca(${dadosTratados})'>
+                      <i class="bi bi-plus-lg"></i>
+                    </button>
+                  </div>
+                `;
+              });
+            })
+            .catch(() => {
+              msgStatus.textContent = "Erro de conexão com o catálogo da API.";
+            });
+        }, 350);
       }
 
-      function fecharModalDetalhes() {
-        document.getElementById("modalDetalhes").classList.remove("mostrar");
+      // SALVA O FILME NO BANCO DE DADOS E DA REFRESH NA VITRINE LOCAL
+      function adicionarFilmeDaBusca(filme) {
+        fecharMenuBusca();
+
+        const posterURLCompleto = filme.poster_path ? `https://image.tmdb.org/t/p/w500${filme.poster_path}` : "";
+
+        fetch("/api/favoritar", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            tmdb_id: parseInt(filme.id),
+            titulo: filme.title,
+            poster_path: posterURLCompleto,
+            ano: filme.release_date,
+            sinopse: filme.overview,
+            status: "quero",
+            nota: 0
+          })
+        })
+        .then(res => res.json())
+        .then(dados => {
+          if (dados.status === "sucesso") {
+            obterFilmesQueroAssistir(); // renderiza a lista principal atualizada
+          } else {
+            exibirModalErro("Este filme já está salvo nas suas listas.");
+          }
+        })
+        .catch(err => exibirModalErro("Erro ao salvar: " + err.message));
       }
 
-      // METODO 1: LISTAR E IMPRIMIR OS POSTERS IGUAL A TELA DE ASSISTIDOS
+      // LISTAR FILMES DA SELEÇÃO DO PROPRIO USUARIO
       function obterFilmesQueroAssistir() {
         const container = document.getElementById("containerQueroAssistir");
-        const loader = document.getElementById("linhaCarregamento");
         const listaVazia = document.getElementById("listaVazia");
+        const contador = document.getElementById("contadorFilmes");
 
         fetch("/api/listar")
-          .then((res) => {
-            if (!res.ok) throw new Error("Erro na comunicação com o backend.");
-            return res.json();
-          })
-          .then((dados) => {
-            cacheLocalFilmes = dados.filter((filme) => filme.status === "quero");
-            
+          .then(res => { if (!res.ok) throw new Error(); return res.json(); })
+          .then(dados => {
+            cacheLocalFilmes = dados.filter(f => f.status === "quero");
+            contador.textContent = `${cacheLocalFilmes.length} ${cacheLocalFilmes.length === 1 ? 'Filme' : 'Filmes'}`;
+
+            const loader = document.getElementById("linhaCarregamento");
             if (loader) loader.remove();
 
             if (cacheLocalFilmes.length === 0) {
@@ -338,14 +477,12 @@
             listaVazia.classList.add("d-none");
             container.innerHTML = "";
 
-            // Renderiza apenas com os dois métodos selecionados: Ver Detalhes e Excluir
-            cacheLocalFilmes.forEach((filme) => {
-              const posterLimpo = filme.poster_path ? filme.poster_path : "https://placehold.co/300x450/181818/ffffff?text=Sem+Poster";
-              
+            cacheLocalFilmes.forEach(filme => {
+              const img = filme.poster_path || "https://placehold.co/300x450/181818/ffffff?text=Sem+Poster";
               container.innerHTML += `
                 <div class="col" id="card-${filme.tmdb_id}">
                   <div class="card card-filme shadow-sm">
-                    <img src="${posterLimpo}" class="card-img-top" alt="${filme.titulo}">
+                    <img src="${img}" class="card-img-top" alt="${filme.titulo}">
                     <div class="card-body d-flex flex-column justify-content-between p-3">
                       <div>
                         <h5 class="movie-title mb-1" title="${filme.titulo}">${filme.titulo}</h5>
@@ -353,11 +490,11 @@
                         <p class="movie-overview mb-3">${filme.sinopse || 'Sem sinopse disponível.'}</p>
                       </div>
                       <div class="d-grid gap-2">
-                        <button class="btn btn-netflix-red btn-sm py-2" onclick="verDetalhesObra(${filme.tmdb_id})">
-                          <i class="bi bi-eye"></i> Ver Detalhes
+                        <button class="btn btn-netflix-red btn-sm py-2" onclick="abrirModalMover(${filme.tmdb_id}, '${filme.titulo.replace(/'/g, "\\'")}')">
+                          <i class="bi bi-check2"></i> Já Assisti
                         </button>
                         <button class="btn btn-outline-light btn-sm py-2" onclick="removerFilmeDaLista(${filme.tmdb_id})">
-                          <i class="bi bi-trash3"></i> Excluir
+                          <i class="bi bi-trash3"></i> Remover
                         </button>
                       </div>
                     </div>
@@ -366,48 +503,65 @@
               `;
             });
           })
-          .catch((err) => {
+          .catch(() => {
+            const loader = document.getElementById("linhaCarregamento");
             if (loader) loader.remove();
-            exibirModalErro("Não foi possível carregar os dados: " + err.message);
+            exibirModalErro("Erro de sincronização com o banco Supabase.");
           });
       }
 
-      // METODO 2: VER DETALHES (ABRE MODAL COM INFOS COMPLETAS)
-      function verDetalhesObra(tmdbId) {
-        const filme = cacheLocalFilmes.find(f => f.tmdb_id === tmdbId);
-        if (!filme) return;
-
-        document.getElementById("detalheTitulo").innerHTML = `<i class="bi bi-film text-danger"></i> ${filme.titulo}`;
-        document.getElementById("detalhePoster").src = filme.poster_path ? filme.poster_path : "https://placehold.co/300x450/181818/ffffff?text=Sem+Poster";
-        document.getElementById("detalheAno").textContent = `Ano de Lançamento: ${filme.ano}`;
-        document.getElementById("detalheSinopse").textContent = filme.sinopse || "Nenhuma descrição detalhada disponível.";
-        
-        document.getElementById("modalDetalhes").classList.add("mostrar");
+      function abrirModalMover(tmdbId, titulo) {
+        document.getElementById("formMoverFilme").reset();
+        document.getElementById("moverTmdbId").value = tmdbId;
+        document.getElementById("moverTituloExibicao").value = titulo;
+        document.getElementById("modalMoverAssistido").classList.add("mostrar");
       }
 
-      // METODO 3: EXCLUIR FILME DO BANCO DE DADOS
+      function salvarComoAssistido(event) {
+        event.preventDefault();
+        const tmdbId = document.getElementById("moverTmdbId").value;
+        const nota = document.getElementById("moverNota").value;
+        const critica = document.getElementById("moverCritica").value;
+        const filme = cacheLocalFilmes.find(f => f.tmdb_id == tmdbId);
+
+        if (!filme) return;
+
+        fetch("/api/favoritar", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            tmdb_id: parseInt(tmdbId),
+            titulo: filme.titulo,
+            poster_path: filme.poster_path,
+            ano: filme.ano,
+            sinopse: critica, 
+            status: "assistido",
+            nota: parseInt(nota)
+          })
+        })
+        .then(res => res.json())
+        .then(dados => {
+          if (dados.status === "sucesso") {
+            fecharModalMover();
+            obterFilmesQueroAssistir();
+          }
+        })
+        .catch(() => exibirModalErro("Erro ao atualizar status do filme."));
+      }
+
       function removerFilmeDaLista(tmdbId) {
-        if (!confirm("Deseja mesmo remover esta obra da sua lista de espera?")) return;
+        if (!confirm("Remover este filme da lista de espera?")) return;
 
         fetch("/api/remover", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ tmdb_id: parseInt(tmdbId) })
         })
-        .then((res) => {
-          if (!res.ok) throw new Error("Falha de rede ao remover registro.");
-          return res.json();
+        .then(res => res.json())
+        .then(dados => {
+          if (dados.status === "sucesso") obterFilmesQueroAssistir();
         })
-        .then((dados) => {
-          if (dados.status === "sucesso") {
-            obterFilmesQueroAssistir();
-          } else {
-            throw new Error(dados.erro || "Falha do Supabase");
-          }
-        })
-        .catch((err) => {
-          exibirModalErro("Erro ao excluir registro: " + err.message);
-        });
+        .catch(() => exibirModalErro("Não foi possível remover o filme."));
       }
     </script>
   </body>
