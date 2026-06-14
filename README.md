@@ -188,6 +188,7 @@ source venv/bin/activate
 ```
 
 ## Instale as Dependências
+
 Certifique-se de que o arquivo requirements.txt inclua todas as bibliotecas do projeto: flask, supabase, pytest e requests-mock.
 
 ```bash
