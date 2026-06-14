@@ -293,6 +293,7 @@
               class="rounded border border-secondary"
             />
             <div class="flex-grow-1">
+              <h6 id="selecionadoAuthorized" class="text-white mb-1 fw-bold"></h6>
               <h6 id="selecionadoTitulo" class="text-white mb-1 fw-bold"></h6>
               <span id="selecionadoAno" class="badge bg-danger"></span>
             </div>
@@ -491,7 +492,6 @@
         document.getElementById("btnSalvarFilme").setAttribute("disabled", "true");
       }
 
-      // CREATE: SALVA O FILME COM STATUS "QUERO" E NOTA "0"
       function salvarNovoFilme(event) {
         event.preventDefault();
 
@@ -512,8 +512,8 @@
           poster_path: poster_path,
           ano: ano,
           sinopse: sinopse, 
-          status: "quero", // Lógica mapeada de acordo com o app.py
-          nota: 0,         // Sem classificação inicial
+          status: "quero",
+          nota: 0,
         };
 
         fetch("/api/favoritar", {
@@ -539,7 +539,6 @@
           });
       }
 
-      // READ: OBTEM OS FILMES FILTRANDO POR STATUS "QUERO"
       function obterFilmesParaAssistir() {
         const container = document.getElementById("corpoTabelaQueroAssistir");
 
@@ -557,7 +556,6 @@
               throw new Error("Formato de dados inválido recebido.");
             }
 
-            // Filtro dinâmico para listar apenas o que o usuário deseja assistir
             filmesCarregados = data.filter((f) => f.status === "quero");
 
             if (filmesCarregados.length === 0) {
@@ -614,12 +612,10 @@
           });
       }
 
-      // INTEGRACAO COMPLETA: ENVIAR FILME DESTA LISTA PARA A TELA DE "JÁ ASSISTIDOS"
       function marcarComoAssistido(tmdbId) {
         const filme = filmesCarregados.find((f) => f.tmdb_id === tmdbId);
         if (!filme) return;
 
-        // Atualiza o status para assistido usando a rota flexível favoritar
         const payload = {
           tmdb_id: filme.tmdb_id,
           titulo: filme.titulo,
@@ -627,7 +623,7 @@
           ano: filme.ano,
           sinopse: "Filme movido da lista de desejos.", 
           status: "assistido",
-          nota: 5 // Define uma nota padrão inicial para o histórico
+          nota: 5 
         };
 
         fetch("/api/favoritar", {
@@ -640,7 +636,7 @@
           return res.json();
         })
         .then(() => {
-          obterFilmesParaAssistir(); // Atualiza a tela local retirando o filme dali
+          obterFilmesParaAssistir();
         })
         .catch((err) => {
           exibirModalErro("Erro ao atualizar status: " + err.message);
@@ -658,7 +654,6 @@
         document.getElementById("modalEditar").classList.add("mostrar");
       }
 
-      // UPDATE: ATUALIZA O TEXTO DE ADENDO DO FILME
       function salvarEdicao(event) {
         event.preventDefault();
 
@@ -691,7 +686,6 @@
           });
       }
 
-      // DELETE: REMOVE O FILME DA LISTA INTEGRAMENTE
       function removerFilme(tmdbId) {
         if (!confirm("Deseja remover este filme da sua lista de desejos?")) return;
 
@@ -713,4 +707,4 @@
       }
     </script>
   </body>
-</html>atualização de erro
+</html>
