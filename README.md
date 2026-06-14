@@ -274,6 +274,11 @@ Link disponível após conclusão do deploy no Render
 | Rafael | Administração e Modelagem de Banco de Dados Relacional (PostgreSQL e Supabase Cloud) |
 | Larissa | Arquitetura DevOps, Testes Automatizados (Pytest), Docker, Integração Contínua/CI e Pipeline de Deploy |
 
+### 11. Link da Aplicação em Produção (Deploy)
+
+A aplicação CineMatch foi containerizada via Docker e publicada com sucesso em ambiente de nuvem. O sistema encontra-se totalmente funcional, integrado à API do TMDB e ao banco de dados Supabase, pronto para acesso público através do link abaixo:
+
+🚀 **Acesse o CineMatch aqui:** [(https://cinematch-5le1.onrender.com/)]
 ---
 
 # Licença
